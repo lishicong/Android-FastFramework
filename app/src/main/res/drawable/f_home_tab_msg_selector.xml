@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@mipmap/f_home_tab_msg_p" android:state_focused="true" />
+    <item android:drawable="@mipmap/f_home_tab_msg_p" android:state_pressed="true" />
+    <item android:drawable="@mipmap/f_home_tab_msg_p" android:state_selected="true" />
+    <item android:drawable="@mipmap/f_home_tab_msg_p" android:state_checked="true" />
+    <item android:drawable="@mipmap/f_home_tab_msg" />
+
+</selector>

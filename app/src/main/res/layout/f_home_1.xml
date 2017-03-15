@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fast_framework_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fast_framework_menu_bg">
+
+        <com.fast.framework.widget.TabPageIndicator
+            android:id="@+id/f_home_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fast_framework_title_bar_menu" />
+    </RelativeLayout>
+
+    <com.fast.framework.widget.FastViewPager
+        android:id="@+id/f_home_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

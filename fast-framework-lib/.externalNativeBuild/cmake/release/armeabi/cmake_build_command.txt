@@ -1,0 +1,18 @@
+Executable : /Users/lishicong/Library/Android/sdk/cmake/3.6.3155560/bin/cmake
+arguments : 
+-H/Users/lishicong/Documents/mywork/github/Android-FastFramework/fast-framework-lib
+-B/Users/lishicong/Documents/mywork/github/Android-FastFramework/fast-framework-lib/.externalNativeBuild/cmake/release/armeabi
+-GAndroid Gradle - Ninja
+-DANDROID_ABI=armeabi
+-DANDROID_NDK=/Users/lishicong/Library/Android/sdk/ndk-bundle
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/lishicong/Documents/mywork/github/Android-FastFramework/fast-framework-lib/build/intermediates/cmake/release/obj/armeabi
+-DCMAKE_BUILD_TYPE=Release
+-DCMAKE_MAKE_PROGRAM=/Users/lishicong/Library/Android/sdk/cmake/3.6.3155560/bin/ninja
+-DCMAKE_TOOLCHAIN_FILE=/Users/lishicong/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+-DANDROID_PLATFORM=android-19
+-DCMAKE_C_FLAGS=-D_EXAMPLE_C_FLAG1 -D_EXAMPLE_C_FLAG2
+-DCMAKE_CXX_FLAGS=-D__STDC_FORMAT_MACROS
+-DANDROID_ARM_NEON=TRUE
+-DANDROID_TOOLCHAIN=clang
+jvmArgs : 
+

@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Android-FastFramework</string>
+    <string name="app_name">薅羊毛</string>
+    <!-- splash -->
+    <string name="app_splash_txt">www.YmFeed.com</string>
+    <!-- home -->
+    <string name="app_home_tab_home">首页</string>
+    <string name="app_home_tab_search">发现</string>
+    <string name="app_home_tab_msg">消息</string>
+    <string name="app_home_tab_me">我的</string>
 </resources>

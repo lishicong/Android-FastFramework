@@ -1,0 +1,22 @@
+# ninja log v5
+0	172	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	40268ea86b7bb1e
+3	231	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	ff04866a1d80da38
+232	280	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libFastFrameworkJniLib.so	5b51212c8aa6609e
+1	112	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	40268ea86b7bb1e
+1	165	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	ff04866a1d80da38
+165	215	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libFastFrameworkJniLib.so	5b51212c8aa6609e
+0	115	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	40268ea86b7bb1e
+1	169	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	ff04866a1d80da38
+169	225	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libFastFrameworkJniLib.so	5b51212c8aa6609e
+0	113	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	40268ea86b7bb1e
+1	175	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	ff04866a1d80da38
+175	216	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libFastFrameworkJniLib.so	5b51212c8aa6609e
+0	103	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	40268ea86b7bb1e
+0	154	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	ff04866a1d80da38
+154	199	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libFastFrameworkJniLib.so	5b51212c8aa6609e
+0	191	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	40268ea86b7bb1e
+1	290	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	ff04866a1d80da38
+290	362	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libFastFrameworkJniLib.so	5b51212c8aa6609e
+1	166	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	40268ea86b7bb1e
+3	261	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	ff04866a1d80da38
+261	320	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libFastFrameworkJniLib.so	5b51212c8aa6609e

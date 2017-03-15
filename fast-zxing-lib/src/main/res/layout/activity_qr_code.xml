@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
+  -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/qr_code_header_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@android:color/black">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/qr_code_titlebar_back"
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/qr_code_titlebar_btn_bg_selector"
+                android:padding="16dp"
+                android:src="@mipmap/zxing_icon_back" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:background="#50ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/title_activity_scan_qr_code"
+                android:textColor="@color/qr_code_white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/qr_code_header_black_pic"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/qr_code_titlebar_btn_bg_selector"
+            android:padding="10dp"
+            android:src="@mipmap/zxing_icon_scan_pic" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="#50ffffff" />
+    </RelativeLayout>
+
+    <SurfaceView
+        android:id="@+id/qr_code_preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/qr_code_header_bar"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
+    <com.fast.zxing.qrcode.view.QrCodeFinderView
+        android:id="@+id/qr_code_view_finder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/qr_code_header_bar"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/qr_code_iv_flash_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/qr_code_header_bar"
+        android:layout_gravity="center"
+        android:layout_margin="24dp"
+        android:src="@mipmap/zxing_icon_scan_flash" />
+
+    <View
+        android:id="@+id/qr_code_view_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/qr_code_header_bar"
+        android:background="@android:color/black"
+        android:visibility="gone" />
+
+</RelativeLayout>
