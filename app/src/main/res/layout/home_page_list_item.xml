@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/fast_framework_divider_general"
+    android:orientation="vertical"
+    android:paddingBottom="3dp"
+    android:paddingTop="3dp">
+
+    <!-- com.fast.framework.view.videolist.widget.PullToRefreshVideoView
+        android:id="@+id/home_1_list_item_video_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        / -->
+
+
+    <RelativeLayout
+        android:id="@+id/home_page_list_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/fast_framework_listview_item_bg_selector"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/home_page_list_item_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/list_item_img_default" />
+
+        <TextView
+            android:id="@+id/home_page_list_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@id/home_page_list_item_image"
+            android:text="我是标题"
+            android:textColor="@drawable/fast_framework_listview_item_title_selector"
+            android:textSize="@dimen/fast_framework_sp_list_title" />
+
+        <TextView
+            android:id="@+id/home_page_list_item_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/home_page_list_item_title"
+            android:layout_below="@id/home_page_list_item_title"
+            android:layout_marginTop="4dp"
+            android:text="我是促销信息哈"
+            android:textColor="@drawable/fast_framework_listview_item_hot_selector"
+            android:textSize="@dimen/fast_framework_sp_list_hot" />
+
+        <TextView
+            android:id="@+id/home_page_list_item_overdue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/home_page_list_item_title"
+            android:layout_below="@id/home_page_list_item_title"
+            android:text="售罄"
+            android:textColor="@drawable/fast_framework_listview_item_overdue_selector"
+            android:textSize="@dimen/fast_framework_sp_list_hot"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/home_page_list_item_sale"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/home_page_list_item_image"
+            android:layout_alignLeft="@id/home_page_list_item_overdue">
+
+            <TextView
+                android:id="@+id/home_page_list_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="京东 | 14:51"
+                android:textColor="@drawable/fast_framework_listview_item_time_selector"
+                android:textSize="@dimen/fast_framework_sp_list_other" />
+
+            <TextView
+                android:id="@+id/home_page_list_item_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="值 67%"
+                android:textColor="@drawable/fast_framework_listview_item_time_selector"
+                android:textSize="@dimen/fast_framework_sp_list_other" />
+
+            <TextView
+                android:id="@+id/home_page_list_item_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="24dp"
+                android:layout_toLeftOf="@id/home_page_list_item_like"
+                android:text="238"
+                android:textColor="@drawable/fast_framework_listview_item_time_selector"
+                android:textSize="@dimen/fast_framework_sp_list_other" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/home_page_list_item_comment"
+                android:src="@mipmap/list_item_comment" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/home_page_list_item_top"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/home_page_list_item_image"
+            android:layout_alignLeft="@id/home_page_list_item_overdue"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/home_page_list_item_advert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="广告"
+                android:textColor="@drawable/fast_framework_listview_item_time_selector"
+                android:textSize="@dimen/fast_framework_sp_list_other" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

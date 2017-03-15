@@ -1,0 +1,3 @@
+/Users/lishicong/Documents/mywork/github/Android-FastFramework/fast-framework-lib/.externalNativeBuild/cmake/debug/mips64/CMakeFiles/edit_cache.dir
+/Users/lishicong/Documents/mywork/github/Android-FastFramework/fast-framework-lib/.externalNativeBuild/cmake/debug/mips64/CMakeFiles/rebuild_cache.dir
+/Users/lishicong/Documents/mywork/github/Android-FastFramework/fast-framework-lib/.externalNativeBuild/cmake/debug/mips64/CMakeFiles/FastFrameworkJniLib.dir

@@ -1,0 +1,4 @@
+# ninja log v5
+1	86	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.c.o	9a335878a09a9eea
+1	100	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	fd98177f0d3128a9
+100	161	0	../../../../build/intermediates/cmake/release/obj/arm64-v8a/libFastFrameworkJniLib.so	3f935e953ab8110e

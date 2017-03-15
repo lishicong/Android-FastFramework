@@ -4,24 +4,81 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.ff.example"
-        minSdkVersion 15
-        targetSdkVersion 24
+        minSdkVersion 19
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
+        // 友盟渠道包
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "channel"]
+    }
+    signingConfigs {
+        release {
+            try {
+                storeFile file("fast-keystore.jks")
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "fast"
+                keyPassword KEY_PASSWORD
+            }
+            catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
     }
     buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.release
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false // 默认false,是否开启断点调试
+            jniDebuggable false // 默认false,是否开启jni的断点调试
+            zipAlignEnabled true // 默认true,是否进行zip align优化
+            minifyEnabled true // 默认false,是否混淆的开关
+            shrinkResources true // 是否去除无效的资源文件，依赖于minifyEnabled，需要minifyEnabled为true
+            signingConfig signingConfigs.release // 配置签名方式，这里配置会覆盖defaultConfig中配置的签名方式
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../config/proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        //channel {}
+        //wandoujia {}
+        baidu {}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                File outputDirectory = new File(outputFile.parent);
+                def fileName
+                if (variant.buildType.name == "release") {
+                    fileName = "fast_${buildTime()}_${variant.productFlavors[0].name}_release.apk"
+                } else {
+                    fileName = "fast_${variant.productFlavors[0].name}_beta.apk"
+                }
+                output.outputFile = new File(outputDirectory, fileName)
+            }
         }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile project(':fast-framework-lib')
+    compile project(':fast-zxing-lib')
+    compile project(':fast-baidumap-lib')
+}
+
+def buildTime() {
+    return new Date().format("yyyyMMdd_HHmmss")
 }

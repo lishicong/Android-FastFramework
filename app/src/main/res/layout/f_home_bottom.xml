@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:button="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/fast_framework_bottom_bar"
+    android:layout_gravity="bottom"
+    android:background="@color/fast_framework_bottom_bar_bg"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/fast_framework_divider_major" />
+
+    <com.fast.framework.widget.FastRadioGroup
+        android:id="@+id/f_home_bottom_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.fast.framework.widget.FastRadioButton
+            android:id="@+id/f_home_bottom_radio_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/app_home_tab_home"
+            android:textColor="@drawable/f_home_bottom_font_selector"
+            android:textSize="@dimen/fast_framework_sp_note"
+            button:fast_drawableMarginTop="6dp"
+            button:fast_drawableTop="@drawable/f_home_tab_home_selector"
+            button:fast_drawableTopHeight="24dp"
+            button:fast_drawableTopWith="24dp" />
+
+        <com.fast.framework.widget.FastRadioButton
+            android:id="@+id/f_home_bottom_radio_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/app_home_tab_search"
+            android:textColor="@drawable/f_home_bottom_font_selector"
+            android:textSize="@dimen/fast_framework_sp_note"
+            button:fast_drawableMarginTop="6dp"
+            button:fast_drawableTop="@drawable/f_home_tab_search_selector"
+            button:fast_drawableTopHeight="24dp"
+            button:fast_drawableTopWith="24dp" />
+
+        <com.fast.framework.widget.FastRadioButton
+            android:id="@+id/f_home_bottom_radio_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/app_home_tab_msg"
+            android:textColor="@drawable/f_home_bottom_font_selector"
+            android:textSize="@dimen/fast_framework_sp_note"
+            button:fast_drawableMarginTop="6dp"
+            button:fast_drawableTop="@drawable/f_home_tab_msg_selector"
+            button:fast_drawableTopHeight="24dp"
+            button:fast_drawableTopWith="24dp" />
+
+        <com.fast.framework.widget.FastRadioButton
+            android:id="@+id/f_home_bottom_radio_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/app_home_tab_me"
+            android:textColor="@drawable/f_home_bottom_font_selector"
+            android:textSize="@dimen/fast_framework_sp_note"
+            button:fast_drawableMarginTop="6dp"
+            button:fast_drawableTop="@drawable/f_home_tab_me_selector"
+            button:fast_drawableTopHeight="24dp"
+            button:fast_drawableTopWith="24dp" />
+
+    </com.fast.framework.widget.FastRadioGroup>
+
+</LinearLayout>

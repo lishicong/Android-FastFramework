@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/f_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.fast.framework.view.FastTitlebarView
+        android:id="@+id/fast_home_titlebar_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fast_framework_title_bar" />
+
+    <FrameLayout
+        android:id="@+id/main_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <include
+        android:id="@+id/f_home_bottom"
+        layout="@layout/f_home_bottom" />
+
+</LinearLayout>

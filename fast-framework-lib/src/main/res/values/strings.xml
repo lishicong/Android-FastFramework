@@ -1,0 +1,11 @@
+<!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<resources>
+
+    <string name="app_name">Fast-Framework-lib</string>
+
+    <!-- guide -->
+    <string name="fast_guide_skip">跳过</string>
+    <string name="fast_guide_done">完成</string>
+</resources>
