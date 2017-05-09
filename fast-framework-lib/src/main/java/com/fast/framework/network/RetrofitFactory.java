@@ -57,7 +57,12 @@ public class RetrofitFactory {
     }
 
     public static <T> T createService(final Class<T> service) {
-        return mRetrofit.create(service);
+        try {
+            return mRetrofit.create(service);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static <T> Observable.Transformer<NetworkModel<T>, T> handleResult() {
