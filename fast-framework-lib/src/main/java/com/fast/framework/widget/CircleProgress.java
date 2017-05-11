@@ -46,7 +46,7 @@ public class CircleProgress extends View {
         progressColorCenter = Color.parseColor("#CCCCCC");// 圆中间的背景颜色
         progressWidth = DensityUtil.dp2px(context, 4); // 圆环进度条的宽度
 
-        textSize = DensityUtil.dp2px(context, 20); // 文字大小
+        textSize = DensityUtil.dp2px(context, 8); // 文字大小
         textColor = Color.parseColor("#6bb849"); // 文字颜色
     }
 

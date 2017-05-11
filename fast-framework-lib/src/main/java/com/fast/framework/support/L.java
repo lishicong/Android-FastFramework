@@ -5,6 +5,8 @@ package com.fast.framework.support;
 
 import java.util.Locale;
 
+import com.fast.framework.BuildConfig;
+
 import android.util.Log;
 
 /**

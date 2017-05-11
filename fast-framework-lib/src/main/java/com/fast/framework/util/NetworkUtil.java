@@ -61,7 +61,7 @@ public class NetworkUtil {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (cm == null) {
+        if (cm == null || cm.getActiveNetworkInfo() == null) {
             return false;
         }
         return cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
