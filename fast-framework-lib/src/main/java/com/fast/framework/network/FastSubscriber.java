@@ -29,21 +29,21 @@ public abstract class FastSubscriber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
         e.printStackTrace();
         if (!NetworkUtil.isConnected(mContext)) {
-            _onError(NetworkException.NETWORK_CODE, "网络不可用");
+            onFailure(NetworkException.NETWORK_CODE, "网络不可用");
         } else if (e instanceof NetworkException) {
-            _onError(((NetworkException) e).getErrorCode(), e.getMessage());
+            onFailure(((NetworkException) e).getErrorCode(), e.getMessage());
         } else {
-            _onError(NetworkException.NETWORK_CODE, e.getMessage());
+            onFailure(NetworkException.NETWORK_CODE, e.getMessage());
         }
     }
 
     @Override
     public void onNext(T t) {
-        _onNext(t);
+        onSuccess(t);
     }
 
-    protected abstract void _onNext(T t);
+    protected abstract void onSuccess(T t);
 
-    protected abstract void _onError(int errorCode, String msg);
+    protected abstract void onFailure(int errorCode, String msg);
 
 }

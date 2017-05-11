@@ -86,7 +86,7 @@ public class HomePageFragment extends FastFragment implements PullToRefreshRecyc
                 .subscribe(new DialogSubscriber<NewsBean>(mActivity) {
 
                     @Override
-                    protected void _onNext(NewsBean bean) {
+                    protected void onSuccess(NewsBean bean) {
                         L.i(bean.size + "");
                         L.i(bean.list.get(0).orderNo);
 
@@ -100,7 +100,7 @@ public class HomePageFragment extends FastFragment implements PullToRefreshRecyc
                     }
 
                     @Override
-                    protected void _onError(int errorCode, String msg) {
+                    protected void onFailure(int errorCode, String msg) {
                         FT.showToast(mActivity, msg);
                         mPullToRefreshRecyclerView.getPtrFrame().refreshComplete();
                     }

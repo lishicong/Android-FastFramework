@@ -35,3 +35,6 @@
 1	182	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	b15385d332c14ce2
 3	256	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	5440ef708f518871
 256	367	0	../../../../build/intermediates/cmake/release/obj/x86/libFastFrameworkJniLib.so	aea603f2e357414f
+1	127	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_AESHelper.cpp.o	b15385d332c14ce2
+1	226	0	CMakeFiles/FastFrameworkJniLib.dir/src/main/jni/com_fast_framework_ndk_SampleHelper.cpp.o	5440ef708f518871
+226	324	0	../../../../build/intermediates/cmake/release/obj/x86/libFastFrameworkJniLib.so	aea603f2e357414f
