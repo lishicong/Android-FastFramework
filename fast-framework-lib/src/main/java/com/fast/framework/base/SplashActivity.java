@@ -7,6 +7,7 @@ import com.fast.framework.R;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 /**
@@ -24,8 +25,9 @@ public abstract class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        mRelativeLayout = (RelativeLayout) findViewById(R.id.a_splash_rl);
+
+        View view = View.inflate(this, R.layout.activity_splash, mBaseLayout);
+        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.a_splash_rl);
     }
 
     @Override

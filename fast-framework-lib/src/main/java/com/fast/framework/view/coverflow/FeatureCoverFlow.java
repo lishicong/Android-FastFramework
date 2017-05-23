@@ -11,8 +11,8 @@ import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 
 import com.fast.framework.R;
+import com.fast.framework.support.L;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -32,7 +32,6 @@ import android.support.v4.util.LruCache;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +49,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      */
     private final Camera mCamera = new Camera();
     /**
-     * Relative spacing value of Views in container. If <1 Views will overlap, if >1 Views will have spaces between
-     * them
+     * 容器中视图的相对间距值. 如果小于1将重叠, 如果大于1视图将在它们之间有间距（支持layout设定）
      */
     private float mSpacing = 0.5f;
 
@@ -73,7 +71,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      * where covers start enlarge their spacing to allow for smooth passing each other without jumping over each other
      * 1 means edge of widget, 0 means only center
      */
-    private float mAdjustPositionThreshold = 0.1f;
+    private float mAdjustPositionThreshold = 0.5f; // lishicong
 
     /**
      * By enlarging this value, you can enlarge spacing in center of widget done by position adjustment
@@ -106,9 +104,9 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     private int mReflectionGap = 2;
 
     /**
-     * Starting opacity of reflection. Reflection fades from this value to transparency;
+     * 图像倒影的透明度
      */
-    private int mReflectionOpacity = 0x70;
+    private int mReflectionOpacity = 0x30;
 
     /**
      * Widget size on which was tuning of parameters done. This value is used to scale parameters on when widgets has
@@ -122,7 +120,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     private int mAlignTime = 350;
 
     /**
-     * If you don't want reflections to be transparent, you can set them background of same color as widget background
+     * 图片倒影的背景色
      */
     private int mReflectionBackgroundColor = Color.TRANSPARENT;
 
@@ -329,8 +327,14 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         return ((float) mTuningWidgetSize) / ((float) getWidth());
     }
 
-    @SuppressLint("NewApi")
-    @Override
+    /**
+     * Adds a view as a child view and takes care of measuring it
+     *
+     * @param child      The view to add
+     * @param layoutMode Either LAYOUT_MODE_LEFT or LAYOUT_MODE_RIGHT
+     *
+     * @return child which was actually added to container, subclasses can override to introduce frame views
+     */
     protected View addAndMeasureChildHorizontal(View child, int layoutMode) {
         final int index = layoutMode == LAYOUT_MODE_TO_BEFORE ? 0 : -1;
         final LoopLayoutParams lp = new LoopLayoutParams(mCoverWidth, mCoverHeight);
@@ -362,14 +366,12 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     @Override
     protected int layoutChildHorizontal(View v, int left, LoopLayoutParams lp) {
         int l, t, r, b;
-
         l = left;
         r = l + v.getMeasuredWidth();
         final int x = ((getHeight() - mPaddingTop - mPaddingBottom) - v.getMeasuredHeight()) / 2
                 + mPaddingTop; // - (int)((lp.actualHeight*mReflectionHeight)/2)
         t = x;
         b = t + v.getMeasuredHeight();
-
         v.layout(l, t, r, b);
         return l + (int) (v.getMeasuredWidth() * mSpacing);
     }
@@ -379,11 +381,19 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      */
     protected int layoutChildHorizontalToBefore(View v, int right, LoopLayoutParams lp) {
         int left = right - v.getMeasuredWidth();
-        ;
+
         left = layoutChildHorizontal(v, left, lp);
+
         return left;
     }
 
+    /**
+     * 获取中心点
+     *
+     * @param v
+     *
+     * @return
+     */
     private int getChildsCenter(View v) {
         final int w = v.getRight() - v.getLeft();
         return v.getLeft() + w / 2;
@@ -503,22 +513,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-                scroll((int) (-1 * mCoverWidth * mSpacing) - mCenterItemOffset);
-                return true;
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-                scroll((int) (mCoverWidth * mSpacing) - mCenterItemOffset);
-                return true;
-            default:
-                break;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -699,6 +693,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      * Removes view that are outside of the visible part of the list. Will not
      * remove all views.
      */
+    @Override
     protected void removeNonVisibleViews() {
         if (getChildCount() == 0) {
             return;
@@ -771,6 +766,15 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         }
     }
 
+    /**
+     * 绘制图片
+     *
+     * @param canvas
+     * @param child
+     * @param drawingTime
+     *
+     * @return
+     */
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
         canvas.save();
@@ -783,13 +787,13 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
 
         //initialize canvas state. Child 0,0 coordinates will match canvas 0,0
         canvas.translate(child.getLeft(), child.getTop());
-
         //set child transformation on canvas
         canvas.concat(mMatrix);
 
         final Bitmap rfCache = ((CoverFrame) child).mReflectionCache;
 
         if (mReflectionBackgroundColor != Color.TRANSPARENT) {
+            // 画图片倒影的背景色
             final int top = bitmap.getHeight() + mReflectionGap - 2;
             final float frame = 1.0f;
             mReflectionPaint.setColor(mReflectionBackgroundColor);
@@ -799,13 +803,14 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
 
         mPaint.reset();
         mPaint.setAntiAlias(true);
+        mPaint.setShadowLayer(15, 5, 2, 0xffffffff); // 画阴影
         mPaint.setFilterBitmap(true);
 
-        //Draw child bitmap with applied transforms
+        // 画图片
         canvas.drawBitmap(bitmap, 0.0f, 0.0f, mPaint);
 
-        //Draw reflection
-        canvas.drawBitmap(rfCache, 0.0f, bitmap.getHeight() - 2 + mReflectionGap, mPaint);
+        // 画图片倒影
+        // canvas.drawBitmap(rfCache, 0.0f, bitmap.getHeight() - 2 + mReflectionGap, mPaint);
 
         canvas.restore();
         return false;
@@ -848,6 +853,12 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         mTempHit.mapRect(outRect);
     }
 
+    /**
+     * 设置每张图片的变化
+     *
+     * @param child
+     * @param m
+     */
     private void setChildTransformation(View child, Matrix m) {
         m.reset();
 
@@ -860,6 +871,11 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         //move back
         m.postTranslate(child.getWidth() / 2f, child.getHeight() / 2f);
 
+    }
+
+    private void addChildScale(View v, Matrix m) {
+        final float f = getScaleFactor(getChildsCenter(v));
+        m.postScale(f, f);
     }
 
     private void addChildCircularPathZOffset(View child, Matrix m) {
@@ -876,11 +892,12 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         mCamera.restore();
     }
 
-    private void addChildScale(View v, Matrix m) {
-        final float f = getScaleFactor(getChildsCenter(v));
-        m.postScale(f, f);
-    }
-
+    /**
+     * 调整图片位置的
+     *
+     * @param child
+     * @param m
+     */
     private void addChildAdjustPosition(View child, Matrix m) {
         final int c = getChildsCenter(child);
         final float crp = getClampedRelativePosition(getRelativePosition(c),
@@ -1021,7 +1038,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
                 if (mAlignScroller.getFinalX() == mAlignScroller.getCurrX()) {
                     mAlignScroller.abortAnimation();
                     mTouchState = TOUCH_STATE_RESTING;
-                    clearChildrenCache();
                     return;
                 }
 
@@ -1032,7 +1048,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
                 return;
             } else {
                 mTouchState = TOUCH_STATE_RESTING;
-                clearChildrenCache();
                 return;
             }
         }
@@ -1188,35 +1203,9 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         setMeasuredDimension(w, h);
     }
 
-    //disable turning caches of and on, we need them always on
-    @Override
-    protected void enableChildrenCache() {
-    }
-
-    @Override
-    protected void clearChildrenCache() {
-    }
-
-    @Override
-    /**
-     * Get position of center item in adapter.
-     * @return position of center item inside adapter date or -1 if there is no center item shown
-     */ public int getScrollPosition() {
-        if (mAdapter == null || mAdapter.getCount() == 0) {
-            return -1;
-        }
-
-        if (mLastCenterItemIndex != -1) {
-            return (mFirstItemPosition + mLastCenterItemIndex) % mAdapter.getCount();
-        } else {
-            return (mFirstItemPosition + (getWidth() / ((int) (mCoverWidth * mSpacing))) / 2) % mAdapter.getCount();
-        }
-    }
-
     /**
      * Set new center item position
      */
-    @Override
     public void scrollToPosition(int position) {
         if (mAdapter == null || mAdapter.getCount() == 0) {
             throw new IllegalStateException(

@@ -7,29 +7,31 @@
     android:layout_height="wrap_content"
     android:background="@drawable/fast_framework_dialog_bg">
 
-    <RelativeLayout
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="12dp">
 
         <com.fast.framework.widget.ProgressWheel
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             wheel:matProg_barColor="#1D91DC"
             wheel:matProg_progressIndeterminate="true" />
-    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="80dp"
-        android:gravity="center_vertical"
-        android:text="数据加载中......"
-        android:textColor="#1D91DC"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="加载中......"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
 
 </FrameLayout>

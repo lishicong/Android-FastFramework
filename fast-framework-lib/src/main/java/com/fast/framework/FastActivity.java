@@ -6,7 +6,9 @@ package com.fast.framework;
 import com.fast.framework.base.BaseActivity;
 import com.fast.framework.base.EmptyFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 /**
  * 界面管理框架的activity基类，所有使用动态界面管理的activity都需要继承此类。
@@ -22,9 +24,13 @@ public class FastActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fast);
+        View view = View.inflate(this, R.layout.activity_fast, mBaseLayout);
 
         mFragment = FastManager.dispatch(this, getIntent(), EmptyFragment.class);
+    }
+
+    public FastFragment getFastFragment() {
+        return mFragment;
     }
 
     @Override
@@ -35,4 +41,10 @@ public class FastActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        mFragment.onNewIntent(intent);
+    }
+
 }

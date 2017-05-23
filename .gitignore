@@ -15,7 +15,10 @@ out/
   
 # Gradle files  
 .gradle/  
-build/  
+build/
+  
+# External native build folder generated in Android Studio 2.2 and later
+.externalNativeBuild
   
 # Local configuration file (sdk path, etc)  
 local.properties  

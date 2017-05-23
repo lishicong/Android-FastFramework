@@ -6,6 +6,7 @@ package com.fast.framework;
 import com.fast.framework.support.CrashHandler;
 
 import android.app.Application;
+import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 
 /**
@@ -14,6 +15,8 @@ import android.support.v7.app.AppCompatDelegate;
 
 public class FastApplication extends Application {
 
+    private static Context mContext;
+
     static {
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
@@ -21,7 +24,12 @@ public class FastApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = getApplicationContext();
         CrashHandler.getInstance().init(this);
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 
 }

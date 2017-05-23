@@ -26,9 +26,8 @@ public class CircleProgress extends View {
     private int height; // 控件的高度
     private int radius; // 圆形的半径
 
-    private Paint paint = new Paint();
-    private RectF rectf = new RectF();
-    private Rect rec = new Rect();
+    private Paint mPaint = new Paint();
+    private RectF mRectF = new RectF();
 
     private int progressColor;
     private int progressColorComplete;
@@ -36,18 +35,14 @@ public class CircleProgress extends View {
     private int progressWidth;
 
     private int startAngle = 270;
-    private float paddingScale = 1.0f;// 控件内偏距占空间本身的比例
+    private float paddingScale = 0.9f;// 控件内偏距占空间本身的比例
 
     public CircleProgress(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        progressColor = Color.parseColor("#ffffff");// 进度条未完成的颜色
-        progressColorComplete = Color.parseColor("#000000");// 进度条已完成的颜色
-        progressColorCenter = Color.parseColor("#CCCCCC");// 圆中间的背景颜色
-        progressWidth = DensityUtil.dp2px(context, 4); // 圆环进度条的宽度
-
-        textSize = DensityUtil.dp2px(context, 8); // 文字大小
-        textColor = Color.parseColor("#6bb849"); // 文字颜色
+        progressColor = Color.parseColor("#3e414e");// 进度条未完成的颜色
+        progressColorComplete = Color.parseColor("#90008cff");// 进度条已完成的颜色
+        progressColorCenter = Color.parseColor("#00000000");// 圆中间的背景颜色
+        progressWidth = DensityUtil.dp2px(context, 2); // 圆环进度条的宽度
     }
 
     @Override
@@ -61,40 +56,33 @@ public class CircleProgress extends View {
         }
 
         radius = (int) (size * paddingScale / 2f);
-        paint.setAntiAlias(true);
+        mPaint.setAntiAlias(true);
+
+        mPaint.setStrokeWidth(progressWidth); // 线宽
+        mPaint.setStyle(Paint.Style.STROKE);
 
         // 绘制进度的环
-        paint.setColor(progressColor);
-        canvas.drawCircle(width / 2, height / 2, radius, paint);
+        mPaint.setColor(progressColor);
+
+        canvas.drawCircle(width / 2, height / 2, radius, mPaint);
 
         // 绘制当前进度
-        rectf.set((width - radius * 2) / 2f, (height - radius * 2) / 2f, ((width - radius * 2) / 2f) + (2 * radius),
-                  ((height - radius * 2) / 2f) + (2 * radius));
-        paint.setColor(progressColorComplete);
+        mRectF.set((width - radius * 2) / 2f, (height - radius * 2) / 2f, ((width - radius * 2) / 2f) + (2 * radius),
+                   ((height - radius * 2) / 2f) + (2 * radius));
+        mPaint.setColor(progressColorComplete);
         //canvas.drawArc(rectf, startAngle, value * 3.6f, true, paint);
-        canvas.drawArc(rectf, startAngle, currentPosition, true, paint);
+        canvas.drawArc(mRectF, startAngle, currentPosition, false, mPaint);
 
         // 绘制中间部分
-        paint.setColor(progressColorCenter);
-        canvas.drawCircle(width / 2, height / 2, radius - progressWidth, paint);
+        mPaint.setColor(progressColorCenter);
+        canvas.drawCircle(width / 2, height / 2, radius - progressWidth, mPaint);
 
         if (bitmap != null) {
             // 绘制中间的图片
-            int width2 = (int) (rectf.width() * scale);
-            int height2 = (int) (rectf.height() * scale);
-            rectf.set(rectf.left + width2, rectf.top + height2, rectf.right - width2, rectf.bottom - height2);
-            canvas.drawBitmap(bitmap, null, rectf, null);
-        }
-
-        if (!hiddenText) {
-            // 绘制中间文字
-            String text = currentPosition + "%";
-            paint.setColor(textColor);
-            paint.setTextSize(textSize);
-            paint.getTextBounds(text, 0, text.length(), rec);
-
-            // 绘制中间文字
-            canvas.drawText(text, (width - rec.width()) / 2, ((height + rec.height()) / 2), paint);
+            int width2 = (int) (mRectF.width() * scale);
+            int height2 = (int) (mRectF.height() * scale);
+            mRectF.set(mRectF.left + width2, mRectF.top + height2, mRectF.right - width2, mRectF.bottom - height2);
+            canvas.drawBitmap(bitmap, null, mRectF, null);
         }
 
         super.onDraw(canvas);
@@ -168,33 +156,6 @@ public class CircleProgress extends View {
 
     public void setDuration(int duration) {
         this.duration = duration;
-    }
-
-    // ------------------------------ 中间文字 ------------------------------
-    private int textSize; // 文字大小
-    private int textColor; // 文字颜色
-    private boolean hiddenText;
-
-    /**
-     * 设置文字大小
-     *
-     * @param textSize
-     */
-    public void setTextSize(int textSize) {
-        textSize = textSize;
-    }
-
-    /**
-     * 设置文字大小
-     *
-     * @param textColor
-     */
-    public void setTextColor(int textColor) {
-        this.textColor = textColor;
-    }
-
-    public void setHiddenText(boolean hiddenText) {
-        this.hiddenText = hiddenText;
     }
 
     // ------------------------------ 中间图片 ------------------------------

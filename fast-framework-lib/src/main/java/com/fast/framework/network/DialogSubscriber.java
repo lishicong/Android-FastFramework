@@ -6,6 +6,7 @@ package com.fast.framework.network;
 import com.fast.framework.R;
 import com.fast.framework.util.DensityUtil;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
@@ -27,18 +28,27 @@ public abstract class DialogSubscriber<T> extends FastSubscriber<T> {
     private String loadingMsg;
     private boolean showLoading;
 
+    /**
+     * 构造方法
+     *
+     * @param context
+     */
     public DialogSubscriber(Context context) {
         super(context);
     }
 
     /**
+     * 构造方法，带loading提示框
+     *
      * @param context
      * @param loadingMsg 提示消息
      */
     public DialogSubscriber(Context context, String loadingMsg) {
         super(context);
-        this.loadingMsg = loadingMsg;
-        this.showLoading = true;
+        if (context instanceof Activity && !TextUtils.isEmpty(loadingMsg)) {
+            this.loadingMsg = loadingMsg;
+            this.showLoading = true;
+        }
     }
 
     protected void showDialog() {
@@ -49,8 +59,8 @@ public abstract class DialogSubscriber<T> extends FastSubscriber<T> {
         loadingDialog.setContentView(initView(mContext, loadingMsg));
         loadingDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         WindowManager.LayoutParams lp = loadingDialog.getWindow().getAttributes();
-        lp.width = (int) (DensityUtil.getScreenWidth(mContext) * 0.6); // loading提示框的宽
-        lp.height = DensityUtil.dp2px(mContext, 90); // loading提示框的高
+        //        lp.width = (int) (DensityUtil.getScreenWidth(mContext) * 0.6); // loading提示框的宽
+        //        lp.height = DensityUtil.dp2px(mContext, 90); // loading提示框的高
         loadingDialog.getWindow().setAttributes(lp);
         loadingDialog.setCancelable(false);
         loadingDialog.show();

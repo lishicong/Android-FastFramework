@@ -137,6 +137,12 @@ public class VisualizerView extends View implements Visualizer.OnDataCaptureList
                 visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[0]);
             }
             levelStep = 230 / MAX_LEVEL;
+
+            // 先说后面三个参数：rate采样的频率，下边通过方法Visualizer.getMaxCaptureRate()
+            // 返回最大的采样频率，单位为milliHertz毫赫兹，iswave是波形信号，isfft是频域信号。
+            // 第一个参数OnDataCaptureListener接口，这里可以一个它的匿名内部类，然后它有两个回调方法：
+            // 这两个回调对应着上边的两个参数iswave和isfft！如果iswave为true，isfft为false则会回调onWaveFormDataCapture方法，
+            // 如果iswave为false，isfft 为true则会回调onFftDataCapture方法
             visualizer.setDataCaptureListener(this, Visualizer.getMaxCaptureRate() / 2, false, true);
 
         } else {
@@ -149,7 +155,15 @@ public class VisualizerView extends View implements Visualizer.OnDataCaptureList
         mVisualizer = visualizer;
     }
 
-    //这个回调应该采集的是快速傅里叶变换有关的数据
+    /**
+     * 这个回调应该采集的是快速傅里叶变换有关的数据
+     * <p>
+     * 说到这不得不提一下数字信号处理相关的知识，FFT（Fast Fourier Transformation），即快速傅里叶转换，它用于把时域上连续的信号(波形)强度转换成离散的频域信号(频谱)
+     *
+     * @param visualizer
+     * @param fft
+     * @param samplingRate
+     */
     @Override
     public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
         byte[] model = new byte[fft.length / 2 + 1];

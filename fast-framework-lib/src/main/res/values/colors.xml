@@ -17,6 +17,10 @@
     <color name="fast_framework_f_link">#ff5188a6</color>
     <!-- 用于价格、促销文字颜色 -->
     <color name="fast_framework_f_hot">#ffd62222</color>
+    <!-- 用于Log文字颜色 -->
+    <color name="fast_framework_f_log">#d03bfc34</color>
+    <!-- 用于Log背景颜色 -->
+    <color name="fast_framework_f_log_bg">#10000000</color>
 
 
     <!-- 用于重要级分割线颜色 -->
@@ -62,5 +66,6 @@
     <color name="fast_framework_menu_bg">#ffffffff</color>
     <!-- bottom背景颜色 -->
     <color name="fast_framework_bottom_bar_bg">#ffffffff</color>
-
+    <!-- shadow -->
+    <color name="default_shadow_color">#88757575</color>
 </resources>

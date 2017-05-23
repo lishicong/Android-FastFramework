@@ -3,6 +3,7 @@
  */
 package com.fast.framework.network;
 
+import com.fast.framework.support.L;
 import com.fast.framework.util.NetworkUtil;
 
 import android.content.Context;
@@ -27,9 +28,11 @@ public abstract class FastSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
+
         e.printStackTrace();
+
         if (!NetworkUtil.isConnected(mContext)) {
-            onFailure(NetworkException.NETWORK_CODE, "网络不可用");
+            onFailure(NetworkException.NETWORK_CODE, "请联接网络");
         } else if (e instanceof NetworkException) {
             onFailure(((NetworkException) e).getErrorCode(), e.getMessage());
         } else {

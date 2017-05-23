@@ -13,7 +13,7 @@
                 android:right="1dp"
                 android:top="1dp" />
             <!-- 边框颜色 -->
-            <solid android:color="#00000000" />
+            <solid android:color="#cccccc" />
             <!-- 边框圆角 -->
             <corners
                 android:bottomLeftRadius="5dp"
@@ -26,7 +26,7 @@
     <item>
         <shape>
             <!-- 中间填充颜色 -->
-            <solid android:color="#20000000" />
+            <solid android:color="#FFFFFF" />
             <!-- 中间圆角 -->
             <corners
                 android:bottomLeftRadius="5dp"

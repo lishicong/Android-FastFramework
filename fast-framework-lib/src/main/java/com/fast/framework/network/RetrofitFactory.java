@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fast.framework.util.NetworkUtil;
+
 import android.content.Context;
 import android.net.Uri;
 import okhttp3.MediaType;
@@ -33,11 +35,13 @@ public class RetrofitFactory {
 
     private static String AGENT;
 
+    private static Context mContext;
     private static Retrofit mRetrofit;
 
     public static synchronized void init(Context context, String agent) {
 
         AGENT = agent;
+        mContext = context;
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(BASE_URL);
@@ -74,11 +78,11 @@ public class RetrofitFactory {
                     public Observable<T> call(NetworkModel<T> networkModel) {
 
                         // 网络延时3秒，用于测试dialog样式显示
-                        //                        try {
-                        //                            Thread.sleep(3000L);
-                        //                        } catch (InterruptedException e) {
-                        //                            e.printStackTrace();
-                        //                        }
+//                        try {
+//                            Thread.sleep(3000L);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                         if (networkModel.getCode() == NetworkException.NETWORK_CODE) {
                             return Observable.error(
                                     new NetworkException(networkModel.getMsg(), networkModel.getCode()));
