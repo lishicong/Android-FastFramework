@@ -6,17 +6,10 @@ package com.fast.framework.view.coverflow;
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 
-import com.fast.framework.R;
-import com.fast.framework.support.L;
-
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -98,11 +91,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
     protected boolean isSrollingDisabled = false;
 
     /**
-     * Whether content should be repeated when there is not enough items to fill container
-     */
-    protected boolean shouldRepeat = true;
-
-    /**
      * Position to scroll adapter only if is in endless mode. This is done after layout if we find out we are endless,
      * we must relayout
      */
@@ -136,15 +124,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
         mTouchSlop = configuration.getScaledTouchSlop();
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
-
-        //init params from xml
-        if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EndlessLoopAdapterContainer, defStyle, 0);
-
-            shouldRepeat = a.getBoolean(R.styleable.EndlessLoopAdapterContainer_shouldRepeat, true);
-
-            a.recycle();
-        }
     }
 
     public EndlessLoopAdapterContainer(Context context, AttributeSet attrs) {
@@ -188,10 +167,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
             position = CENTER;
         }
 
-    }
-
-    public void setShouldRepeat(boolean shouldRepeat) {
-        this.shouldRepeat = shouldRepeat;
     }
 
     @Override
@@ -295,7 +270,7 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
                 mScroller.abortAnimation();
                 mTouchState = TOUCH_STATE_RESTING;
                 if (!checkScrollPosition()) {
-                    //                    clearChildrenCache();
+
                 }
                 return;
             }
@@ -307,7 +282,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
         } else if (mTouchState == TOUCH_STATE_FLING || mTouchState == TOUCH_STATE_DISTANCE_SCROLL) {
             mTouchState = TOUCH_STATE_RESTING;
             if (!checkScrollPosition()) {
-                //                clearChildrenCache();
             }
         }
 
@@ -483,10 +457,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
         final float y = ev.getY();
         switch (action) {
             case MotionEvent.ACTION_MOVE:
-                //if we have scrolling disabled, we don't do anything
-                if (!shouldRepeat && isSrollingDisabled) {
-                    return false;
-                }
 
                 /*
                  * not dragging, otherwise the shortcut would have caught it. Check
@@ -619,10 +589,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                //if we have scrolling disabled, we don't do anything
-                if (!shouldRepeat && isSrollingDisabled) {
-                    return false;
-                }
 
                 if (mTouchState == TOUCH_STATE_SCROLLING) {
                     // Scroll to follow the motion event
@@ -698,8 +664,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
                     break;
                 }
 
-                // Release the drag
-                //                clearChildrenCache();
                 mTouchState = TOUCH_STATE_RESTING;
                 mAllowLongPress = false;
 

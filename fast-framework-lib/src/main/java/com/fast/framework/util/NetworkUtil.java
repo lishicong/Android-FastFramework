@@ -3,14 +3,18 @@
  */
 package com.fast.framework.util;
 
+import java.util.List;
+
 import com.fast.framework.support.L;
 
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 
 /**
  * 网络状态相关工具类.
@@ -36,10 +40,12 @@ public class NetworkUtil {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivity != null) {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+            NetworkInfo[] infos = connectivity.getAllNetworkInfo();
+            if (infos != null) {
+                for (int i = 0; i < infos.length; i++) {
+
+                    NetworkInfo info = infos[i];
+                    if (info.getState() == NetworkInfo.State.CONNECTED) {
                         L.i("network is connected");
                         return true;
                     }
@@ -65,6 +71,19 @@ public class NetworkUtil {
             return false;
         }
         return cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+    }
+
+    /**
+     * 判断GPS是否打开
+     *
+     * @param context
+     *
+     * @return
+     */
+    public static boolean isGpsEnabled(Context context) {
+        LocationManager lm = ((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+        List<String> accessibleProviders = lm.getProviders(true);
+        return accessibleProviders != null && accessibleProviders.size() > 0;
     }
 
     /**

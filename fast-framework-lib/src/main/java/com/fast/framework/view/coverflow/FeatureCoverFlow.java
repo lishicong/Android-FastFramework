@@ -468,7 +468,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             if (di != 0) {
                 final int dst = (int) (di * mCoverWidth * mSpacing) - mCenterItemOffset;
                 scrollBy(-dst, 0);
-                shouldRepeat = true;
                 postInvalidate();
                 return;
             }
@@ -543,19 +542,12 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             }
 
             if (mLastItemPosition >= mAdapter.getCount()) {
-                if (firstItemPos == 0 && shouldRepeat) {
+                if (firstItemPos == 0) {
                     mLastItemPosition = 0;
                 } else {
                     if (firstItemPos > 0) {
                         mLastItemPosition = 0;
                         isRepeatingNow = true;
-                    } else if (!shouldRepeat) {
-                        mLastItemPosition--;
-                        isSrollingDisabled = true;
-                        final int w = right - mLeftChildEdge;
-                        final int dx = (getWidth() - w) / 2;
-                        scrollTo(-dx, 0);
-                        return;
                     }
 
                 }
@@ -592,9 +584,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      */
     @Override
     protected void refillRight() {
-        if (!shouldRepeat && isSrollingDisabled) {
-            return; //prevent next layout calls to override override first init to scrolling disabled by falling to
-        }
         // this branch
         if (getChildCount() == 0) {
             return;
@@ -653,9 +642,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      */
     @Override
     protected void refillLeft() {
-        if (!shouldRepeat && isSrollingDisabled) {
-            return; //prevent next layout calls to override override first init to scrolling disabled by falling to
-        }
         // this branch
         if (getChildCount() == 0) {
             return;
@@ -803,7 +789,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
 
         mPaint.reset();
         mPaint.setAntiAlias(true);
-        mPaint.setShadowLayer(15, 5, 2, 0xffffffff); // 画阴影
         mPaint.setFilterBitmap(true);
 
         // 画图片

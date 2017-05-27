@@ -96,11 +96,11 @@ public class VisualizerView extends View implements Visualizer.OnDataCaptureList
             value = 1;
         }//最少有一个频谱块
         for (int i = 0; i < value; i++) { //每个能量柱绘制value个能量块
-            float y = (getHeight() / 2 - i * vgap - vgap);//计算y轴坐标
-            float y1 = (getHeight() / 2 + i * vgap + vgap);
+            float y = (getHeight() / 1.25f - i * vgap - vgap);//计算y轴坐标
+            float y1 = (getHeight() / 1.25f + i * vgap + vgap);
             //绘制频谱块
             mPaint.setColor(Color.WHITE);//画笔颜色
-            mPaint.setAlpha(150);
+            mPaint.setAlpha(135);
             canvas.drawLine(x, y, (x + strokeLength), y, mPaint);//绘制频谱块
 
             //绘制音量柱倒影

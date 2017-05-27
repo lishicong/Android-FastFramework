@@ -25,7 +25,6 @@ public class FastActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         View view = View.inflate(this, R.layout.activity_fast, mBaseLayout);
-
         mFragment = FastManager.dispatch(this, getIntent(), EmptyFragment.class);
     }
 

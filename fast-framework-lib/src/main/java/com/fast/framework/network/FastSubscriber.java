@@ -36,7 +36,7 @@ public abstract class FastSubscriber<T> extends Subscriber<T> {
         } else if (e instanceof NetworkException) {
             onFailure(((NetworkException) e).getErrorCode(), e.getMessage());
         } else {
-            onFailure(NetworkException.NETWORK_CODE, e.getMessage());
+            onFailure(NetworkException.NETWORK_CODE, "请检查网络:" + e.getMessage());
         }
     }
 

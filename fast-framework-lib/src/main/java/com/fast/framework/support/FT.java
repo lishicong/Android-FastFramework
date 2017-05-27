@@ -52,8 +52,8 @@ public class FT {
             mToast = new Toast(context);
             mToast.setDuration(Toast.LENGTH_LONG);
             mToast.setGravity(Gravity.BOTTOM, 0, 150);
+            mToast.setView(view);
         }
-        mToast.setView(view);
 
         mHandler.postDelayed(r, 1000); // 延迟1秒隐藏toast
         mToast.show();
