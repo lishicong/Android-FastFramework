@@ -5,10 +5,12 @@ package com.fast.framework.network;
 
 import com.fast.framework.R;
 import com.fast.framework.util.DensityUtil;
+import com.fast.framework.util.NetworkUtil;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +65,19 @@ public abstract class DialogSubscriber<T> extends FastSubscriber<T> {
         //        lp.height = DensityUtil.dp2px(mContext, 90); // loading提示框的高
         loadingDialog.getWindow().setAttributes(lp);
         loadingDialog.setCancelable(false);
-        loadingDialog.show();
+
+        if (mContext instanceof Activity) {
+            Activity activity = (Activity) mContext;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
+                    loadingDialog.show();
+                }
+            } else {
+                if (activity != null && !activity.isFinishing()) {
+                    loadingDialog.show();
+                }
+            }
+        }
     }
 
     protected void dismissDialog() {
@@ -75,6 +89,12 @@ public abstract class DialogSubscriber<T> extends FastSubscriber<T> {
     @Override
     public void onStart() {
         super.onStart();
+
+        if (!NetworkUtil.isConnected(mContext)) {
+            onFailure(ExceptionHandle.handleException(ExceptionHandle.ERROR.NETWORK));
+            return;
+        }
+
         if (showLoading) {
             showDialog();
         }

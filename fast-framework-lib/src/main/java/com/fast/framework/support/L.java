@@ -38,35 +38,35 @@ public class L {
 
     public static void v(String msg) {
 
-        if (LEVEL >= VERBOSE) {
+        if (LOG_TRACE_ENABLED && LEVEL >= VERBOSE) {
             Log.v(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
         }
     }
 
     public static void d(String msg) {
 
-        if (LEVEL >= DEBUG) {
+        if (LOG_TRACE_ENABLED && LEVEL >= DEBUG) {
             Log.d(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
         }
     }
 
     public static void i(String msg) {
 
-        if (LEVEL >= INFO) {
+        if (LOG_TRACE_ENABLED && LEVEL >= INFO) {
             Log.i(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
         }
     }
 
     public static void w(String msg) {
 
-        if (LEVEL >= WARN) {
+        if (LOG_TRACE_ENABLED && LEVEL >= WARN) {
             Log.w(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
         }
     }
 
     public static void e(String msg) {
 
-        if (LEVEL >= ERROR) {
+        if (LOG_TRACE_ENABLED && LEVEL >= ERROR) {
             Log.e(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
         }
     }

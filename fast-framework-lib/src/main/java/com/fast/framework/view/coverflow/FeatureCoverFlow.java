@@ -28,6 +28,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
+import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.util.AttributeSet;
 import android.util.Log;

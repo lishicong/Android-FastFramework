@@ -9,12 +9,14 @@ package com.fast.framework.network;
 
 public class NetworkException extends Exception {
 
-    public static final int NETWORK_CODE = -1;
-
-    private int errorCode = NETWORK_CODE;
+    private int errorCode;
 
     public NetworkException(String message) {
-        this(message, NETWORK_CODE);
+        this(message, ExceptionHandle.SERVER_ERROR_CODE);
+    }
+
+    public NetworkException(int errorCode) {
+        this(ExceptionHandle.UNKOWN_ERROR, errorCode);
     }
 
     public NetworkException(String message, int errorCode) {

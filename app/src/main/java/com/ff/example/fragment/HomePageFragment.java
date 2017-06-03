@@ -6,6 +6,7 @@ package com.ff.example.fragment;
 import com.fast.framework.FastFragment;
 import com.fast.framework.data.RecyclerViewAdapter;
 import com.fast.framework.network.DialogSubscriber;
+import com.fast.framework.network.NetworkException;
 import com.fast.framework.network.RetrofitFactory;
 import com.fast.framework.support.FT;
 import com.fast.framework.support.L;
@@ -100,8 +101,8 @@ public class HomePageFragment extends FastFragment implements PullToRefreshRecyc
                     }
 
                     @Override
-                    protected void onFailure(int errorCode, String msg) {
-                        FT.showToast(mActivity, msg);
+                    protected void onFailure(NetworkException ne) {
+                        FT.showToast(mActivity, ne.getMessage());
                         mPullToRefreshRecyclerView.getPtrFrame().refreshComplete();
                     }
                 });

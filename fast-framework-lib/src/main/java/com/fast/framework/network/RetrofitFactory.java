@@ -6,8 +6,7 @@ package com.fast.framework.network;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fast.framework.util.NetworkUtil;
+import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
 import android.net.Uri;
@@ -54,6 +53,12 @@ public class RetrofitFactory {
     private static OkHttpClient getClient(Context context) {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        // 连接超时设置，单位毫秒
+        builder.connectTimeout(10 * 1000, TimeUnit.MILLISECONDS);
+        builder.writeTimeout(10 * 1000, TimeUnit.MILLISECONDS);
+        builder.readTimeout(10 * 1000, TimeUnit.MILLISECONDS);
+
         builder.cookieJar(new CookieManager(context));
         builder.addInterceptor(new UserAgentInterceptor(AGENT));
         OkHttpClient okHttpClient = builder.build();
@@ -78,12 +83,12 @@ public class RetrofitFactory {
                     public Observable<T> call(NetworkModel<T> networkModel) {
 
                         // 网络延时3秒，用于测试dialog样式显示
-//                        try {
-//                            Thread.sleep(3000L);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-                        if (networkModel.getCode() == NetworkException.NETWORK_CODE) {
+                        //                        try {
+                        //                            Thread.sleep(3000L);
+                        //                        } catch (InterruptedException e) {
+                        //                            e.printStackTrace();
+                        //                        }
+                        if (networkModel.getCode() == ExceptionHandle.SERVER_ERROR_CODE) {
                             return Observable.error(
                                     new NetworkException(networkModel.getMsg(), networkModel.getCode()));
                         } else {

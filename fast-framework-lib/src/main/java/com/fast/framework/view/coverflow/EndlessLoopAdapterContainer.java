@@ -124,6 +124,10 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
         mTouchSlop = configuration.getScaledTouchSlop();
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+
+        // 这里减慢滑动速度
+        // lishicong 20170602
+        mMaximumVelocity = mMinimumVelocity * 2;
     }
 
     public EndlessLoopAdapterContainer(Context context, AttributeSet attrs) {
@@ -442,7 +446,6 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
          * scrolling there.
          */
 
-
         /*
          * Shortcut the most recurring case: the user is in the dragging
          * state and he is moving his finger.  We want to intercept this
@@ -640,7 +643,9 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
                 // down coordinates
                 if (mTouchState == TOUCH_STATE_SCROLLING) {
 
-                    mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+                    mVelocityTracker.computeCurrentVelocity(mMinimumVelocity, mMaximumVelocity);
+                    // lishicong 20170602
+                    // mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
                     int initialXVelocity = (int) mVelocityTracker.getXVelocity();
                     int initialYVelocity = (int) mVelocityTracker.getYVelocity();
 
