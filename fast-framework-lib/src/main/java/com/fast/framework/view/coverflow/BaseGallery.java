@@ -14,12 +14,16 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewDebug.CapturedViewProperty;
+import android.view.ViewDebug;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
 
-public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
+/**
+ * Created by lishicong on 2017/6/6.
+ */
+
+public abstract class BaseGallery extends AdapterView<Adapter> {
     /**
      * Children added with this layout mode will be added after the last child
      */
@@ -30,7 +34,7 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
      */
     protected static final int LAYOUT_MODE_TO_BEFORE = 1;
 
-    protected static final int SCROLLING_DURATION = 500;
+    protected static final int SCROLLING_DURATION = 1500;
 
     /**
      * The adapter providing data for container
@@ -82,13 +86,13 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
     /**
      * A list of cached (re-usable) item views
      */
-    protected final LinkedList<WeakReference<View>> mCachedItemViews = new LinkedList<WeakReference<View>>();
+    protected final LinkedList<WeakReference<View>> mCachedItemViews = new LinkedList<>();
 
     /**
      * If there is not enough items to fill adapter, this value is set to true and scrolling is disabled. Since all
      * items from adapter are on screen
      */
-    protected boolean isSrollingDisabled = false;
+    protected boolean isSrollingDisabled = true;
 
     /**
      * Position to scroll adapter only if is in endless mode. This is done after layout if we find out we are endless,
@@ -117,7 +121,7 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
     protected OnItemClickListener mOnItemClickListener;
     protected OnItemSelectedListener mOnItemSelectedListener;
 
-    public EndlessLoopAdapterContainer(Context context, AttributeSet attrs, int defStyle) {
+    public BaseGallery(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         final ViewConfiguration configuration = ViewConfiguration.get(context);
@@ -125,17 +129,14 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
 
-        // 这里减慢滑动速度
-        // lishicong 20170602
-        mMaximumVelocity = mMinimumVelocity * 2;
     }
 
-    public EndlessLoopAdapterContainer(Context context, AttributeSet attrs) {
+    public BaseGallery(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
 
     }
 
-    public EndlessLoopAdapterContainer(Context context) {
+    public BaseGallery(Context context) {
         this(context, null);
     }
 
@@ -193,21 +194,7 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
 
     @Override
     public View getSelectedView() {
-        if (mSelectedPosition == INVALID_POSITION) {
-            return null;
-        }
-
-        final int index;
-        if (mFirstItemPosition > mSelectedPosition) {
-            index = mSelectedPosition + mAdapter.getCount() - mFirstItemPosition;
-        } else {
-            index = mSelectedPosition - mFirstItemPosition;
-        }
-        if (index < 0 || index >= getChildCount()) {
-            return null;
-        }
-
-        return getChildAt(index);
+        throw new UnsupportedOperationException("Not supported");
     }
 
     /**
@@ -215,40 +202,7 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
      */
     @Override
     public void setSelection(int position) {
-        if (mAdapter == null) {
-            throw new IllegalStateException("You are trying to set selection on widget without adapter");
-        }
-        if (mAdapter.getCount() == 0 && position == 0) {
-            position = -1;
-        }
-        if (position < -1 || position > mAdapter.getCount() - 1) {
-            throw new IllegalArgumentException(
-                    "Position index must be in range of adapter values (0 - getCount()-1) or -1 to unselect");
-        }
-
-        View v = getSelectedView();
-        if (v != null) {
-            v.setSelected(false);
-        }
-
-        final int oldPos = mSelectedPosition;
-        mSelectedPosition = position;
-
-        if (position == -1) {
-            if (mOnItemSelectedListener != null) {
-                mOnItemSelectedListener.onNothingSelected(this);
-            }
-            return;
-        }
-
-        v = getSelectedView();
-        if (v != null) {
-            v.setSelected(true);
-        }
-
-        if (oldPos != mSelectedPosition && mOnItemSelectedListener != null) {
-            mOnItemSelectedListener.onItemSelected(this, v, mSelectedPosition, getSelectedItemId());
-        }
+        throw new UnsupportedOperationException("Not supported");
     }
 
     private void reset() {
@@ -538,7 +492,7 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
                         handleClick(mDown);
                     }
                 }
-                // Release the drag   
+                // Release the drag
                 mAllowLongPress = false;
                 mHandleSelectionOnActionUp = false;
                 mDown.x = -1;
@@ -643,9 +597,10 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
                 // down coordinates
                 if (mTouchState == TOUCH_STATE_SCROLLING) {
 
-                    mVelocityTracker.computeCurrentVelocity(mMinimumVelocity, mMaximumVelocity);
-                    // lishicong 20170602
+                    // 这里减慢滑动速度 20170602 lishicong
                     // mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+                    mVelocityTracker.computeCurrentVelocity(mMinimumVelocity, mMaximumVelocity);
+
                     int initialXVelocity = (int) mVelocityTracker.getXVelocity();
                     int initialYVelocity = (int) mVelocityTracker.getYVelocity();
 
@@ -722,24 +677,7 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
     }
 
     @Override
-    @CapturedViewProperty
-    public int getSelectedItemPosition() {
-        return mSelectedPosition;
-    }
-
-    @Override
-    @CapturedViewProperty
-    public long getSelectedItemId() {
-        return mAdapter.getItemId(mSelectedPosition);
-    }
-
-    @Override
-    public Object getSelectedItem() {
-        return getSelectedView();
-    }
-
-    @Override
-    @CapturedViewProperty
+    @ViewDebug.CapturedViewProperty
     public int getCount() {
         if (mAdapter != null) {
             return mAdapter.getCount();
@@ -797,5 +735,3 @@ public abstract class EndlessLoopAdapterContainer extends AdapterView<Adapter> {
     }
 
 }
-
-

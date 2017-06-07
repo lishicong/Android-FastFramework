@@ -1,17 +1,12 @@
 /*
  * Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
  */
-
-/**
- *
- */
 package com.fast.framework.view.coverflow;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 
 import com.fast.framework.R;
-import com.fast.framework.support.L;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,12 +18,11 @@ import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Shader.TileMode;
-import android.os.Build;
+import android.graphics.Shader;
 import android.support.v4.util.LruCache;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -42,7 +36,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
-public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements ViewTreeObserver.OnPreDrawListener {
+/**
+ * Created by lishicong on 2017/6/6.
+ */
+
+public class FastGallery extends BaseGallery implements ViewTreeObserver.OnPreDrawListener {
     public static final int DEFAULT_MAX_CACHE_SIZE = 32;
 
     /**
@@ -62,8 +60,12 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     private int mLastCenterItemIndex = -1;
 
     /**
-     * Distance from center as fraction of half of widget size where covers start to zoom in
-     * 1 means scaling starts on edge of widget, 0 means only center scaled
+     * Distance from center as fraction of half of widget size where covers start to rotate into center
+     * 1 means rotation starts on edge of widget, 0 means only center rotated
+     */
+    private float mRotationThreshold = 0.3f;
+    /**
+     * 从中心的距离为一半的图片大小，其中封面开始放大，1缩放开始边缘的图片，0只中心缩放
      */
     private float mScalingThreshold = 0.3f;
 
@@ -79,6 +81,10 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      */
     private float mAdjustPositionMultiplier = 1.0f;
 
+    /**
+     * Absolute value of rotation angle of cover at edge of widget in degrees
+     */
+    private float mMaxRotationAngle = 70.0f;
     /**
      * Scale factor of item in center
      */
@@ -128,8 +134,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     /**
      * A list of cached (re-usable) cover frames
      */
-    protected final LinkedList<WeakReference<CoverFrame>> mRecycledCoverFrames =
-            new LinkedList<WeakReference<CoverFrame>>();
+    protected final LinkedList<WeakReference<CoverFrame>> mRecycledCoverFrames = new LinkedList<>();
 
     /**
      * A listener for center item position
@@ -170,7 +175,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     private final Matrix mReflectionMatrix = new Matrix();
     private final Paint mPaint = new Paint();
     private final Paint mReflectionPaint = new Paint();
-    private final PorterDuffXfermode mXfermode = new PorterDuffXfermode(Mode.DST_IN);
+    private final PorterDuffXfermode mXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
     private final Canvas mReflectionCanvas = new Canvas();
 
     private int mScrollToPositionOnNextInvalidate = -1;
@@ -187,7 +192,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         protected void entryRemoved(boolean evicted, Integer key, CoverFrame oldValue, CoverFrame newValue) {
             if (evicted) {
                 if (oldValue.getChildCount() == 1) {
-                    mCachedItemViews.addLast(new WeakReference<View>(oldValue.getChildAt(0)));
+                    mCachedItemViews.addLast(new WeakReference<>(oldValue.getChildAt(0)));
                     recycleCoverFrame(oldValue); // removes children, must be after caching children
                 }
             }
@@ -195,7 +200,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
 
     }
 
-    public FeatureCoverFlow(Context context, AttributeSet attrs, int defStyle, int cacheSize) {
+    public FastGallery(Context context, AttributeSet attrs, int defStyle, int cacheSize) {
         super(context, attrs, defStyle);
 
         if (cacheSize <= 0) {
@@ -219,11 +224,13 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             }
             mCoverHeight = a.getDimensionPixelSize(R.styleable.FeatureCoverFlow_coverHeight, mCoverHeight);
             mSpacing = a.getFloat(R.styleable.FeatureCoverFlow_spacing, mSpacing);
+            mRotationThreshold = a.getFloat(R.styleable.FeatureCoverFlow_rotationThreshold, mRotationThreshold);
             mScalingThreshold = a.getFloat(R.styleable.FeatureCoverFlow_scalingThreshold, mScalingThreshold);
             mAdjustPositionThreshold = a.getFloat(R.styleable.FeatureCoverFlow_adjustPositionThreshold,
                                                   mAdjustPositionThreshold);
             mAdjustPositionMultiplier = a.getFloat(R.styleable.FeatureCoverFlow_adjustPositionMultiplier,
                                                    mAdjustPositionMultiplier);
+            mMaxRotationAngle = a.getFloat(R.styleable.FeatureCoverFlow_maxRotationAngle, mMaxRotationAngle);
             mMaxScaleFactor = a.getFloat(R.styleable.FeatureCoverFlow_maxScaleFactor, mMaxScaleFactor);
             mRadius = a.getFloat(R.styleable.FeatureCoverFlow_circlePathRadius, mRadius);
             mRadiusInMatrixSpace = a.getFloat(R.styleable.FeatureCoverFlow_circlePathRadiusInMatrixSpace,
@@ -244,15 +251,15 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         }
     }
 
-    public FeatureCoverFlow(Context context, AttributeSet attrs) {
+    public FastGallery(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public FeatureCoverFlow(Context context) {
+    public FastGallery(Context context) {
         this(context, null);
     }
 
-    public FeatureCoverFlow(Context context, AttributeSet attrs, int defStyle) {
+    public FastGallery(Context context, AttributeSet attrs, int defStyle) {
         this(context, attrs, defStyle, DEFAULT_MAX_CACHE_SIZE);
     }
 
@@ -271,7 +278,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             }
 
             final LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            //final LayoutParams lp = new LayoutParams(360, 360);
             lp.leftMargin = 1;
             lp.topMargin = 1;
             lp.rightMargin = 1;
@@ -283,7 +289,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             }
 
             //register observer to catch cover redraws
-            cover.getViewTreeObserver().addOnPreDrawListener(FeatureCoverFlow.this);
+            cover.getViewTreeObserver().addOnPreDrawListener(FastGallery.this);
 
             addView(cover, lp);
         }
@@ -324,6 +330,11 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
 
     }
 
+    /**
+     * 图片偏移中心的距离
+     *
+     * @return
+     */
     private float getWidgetSizeMultiplier() {
         return ((float) mTuningWidgetSize) / ((float) getWidth());
     }
@@ -560,7 +571,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             }
 
             child = mAdapter.getView(mLastItemPosition, getCachedView(), this);
-            ToolBox.notNull(child, "Your adapter has returned null from getView.");
             child = addAndMeasureChildHorizontal(child, LAYOUT_MODE_AFTER);
             left = layoutChildHorizontal(child, left, (LoopLayoutParams) child.getLayoutParams());
             right = child.getRight();
@@ -625,7 +635,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         View v = mCachedFrames.remove(position);
         if (v == null) {
             v = mAdapter.getView(position, getCachedView(), this);
-            ToolBox.notNull(v, "Your adapter has returned null from getView.");
             return v;
         }
 
@@ -633,7 +642,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             return v;
         } else {
             v = mAdapter.getView(position, getCachedView(), this);
-            ToolBox.notNull(v, "Your adapter has returned null from getView.");
             return v;
         }
     }
@@ -811,7 +819,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         final Bitmap reflection = Bitmap.createBitmap(original, 0, rh, w, rh, mReflectionMatrix, false);
 
         final LinearGradient shader = new LinearGradient(0, 0, 0, reflection.getHeight(), gradientColor, 0x00ffffff,
-                                                         TileMode.CLAMP);
+                                                         Shader.TileMode.CLAMP);
         mPaint.reset();
         mPaint.setShader(shader);
         mPaint.setXfermode(mXfermode);
@@ -848,6 +856,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     private void setChildTransformation(View child, Matrix m) {
         m.reset();
 
+        // addChildRotation(child, m);
         addChildScale(child, m);
         addChildCircularPathZOffset(child, m);
         addChildAdjustPosition(child, m);
@@ -859,6 +868,47 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
 
     }
 
+    /**
+     * 设置图片旋转
+     *
+     * @param v
+     * @param m
+     */
+    private void addChildRotation(View v, Matrix m) {
+        mCamera.save();
+
+        final int c = getChildsCenter(v);
+        mCamera.rotateY(getRotationAngle(c) - getAngleOnCircle(c));
+
+        mCamera.getMatrix(mTemp);
+        m.postConcat(mTemp);
+
+        mCamera.restore();
+    }
+
+    private float getRotationAngle(int childCenter) {
+        return -mMaxRotationAngle * getClampedRelativePosition(getRelativePosition(childCenter),
+                                                               mRotationThreshold * getWidgetSizeMultiplier());
+    }
+
+    private float getAngleOnCircle(int childCenter) {
+        float x = getRelativePosition(childCenter) / mRadius;
+        if (x < -1.0f) {
+            x = -1.0f;
+        }
+        if (x > 1.0f) {
+            x = 1.0f;
+        }
+
+        return (float) (Math.acos(x) / Math.PI * 180.0f - 90.0f);
+    }
+
+    /**
+     * 添加中间图片放大效果
+     *
+     * @param v
+     * @param m
+     */
     private void addChildScale(View v, Matrix m) {
         final float f = getScaleFactor(getChildsCenter(v));
         m.postScale(f, f);
@@ -933,10 +983,10 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
     }
 
     private float getScaleFactor(int childCenter) {
-        return 1 + (mMaxScaleFactor - 1) * (1 - Math.abs(getClampedRelativePosition(getRelativePosition(childCenter),
-                                                                                    mScalingThreshold
-                                                                                            * getWidgetSizeMultiplier
-                                                                                            ())));
+        float factor = 1 + (mMaxScaleFactor - 1) * (1 - Math.abs(
+                getClampedRelativePosition(getRelativePosition(childCenter),
+                                           mScalingThreshold * getWidgetSizeMultiplier())));
+        return factor;
     }
 
     /**
@@ -978,10 +1028,6 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
             v = getChildAt(childOrder[i]); //we need reverse drawing order. Check children drawn last first
             getScrolledTransformedChildRectangle(v, r);
             if (r.contains(p.x, p.y)) {
-                final View old = getSelectedView();
-                if (old != null) {
-                    old.setSelected(false);
-                }
 
                 int position = mFirstItemPosition + childOrder[i];
                 if (position >= mAdapter.getCount()) {
@@ -1201,9 +1247,28 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
         if (mLastCenterItemIndex != -1) {
             final int lastCenterItemPosition = (mFirstItemPosition + mLastCenterItemIndex) % mAdapter.getCount();
             final int di = lastCenterItemPosition - position;
-            final int dst = (int) (di * mCoverWidth * mSpacing);
+
+            // 点击卡片切换无滑动效果 lishicong
+            // final int dst = (int) (di * mCoverWidth * mSpacing);
+            // mScrollToPositionOnNextInvalidate = -1;
+            // scrollBy(-dst, 0);
+
+            // TODO 点击卡片切换有滑动效果，显示超过5张卡片此算法需要优化
+            int di2 = di;
+            int m = 1;
+            int n = 2;
+            if (di == -mAdapter.getCount() + m) {
+                di2 = m;
+            } else if (di == -mAdapter.getCount() + n) {
+                di2 = n;
+            } else if (di == mAdapter.getCount() - m) {
+                di2 = -m;
+            } else if (di == mAdapter.getCount() - n) {
+                di2 = -n;
+            }
+            final int dst = (int) (di2 * mCoverWidth * mSpacing);
             mScrollToPositionOnNextInvalidate = -1;
-            scrollBy(-dst, 0);
+            scroll(-dst);
         } else {
             mScrollToPositionOnNextInvalidate = position;
         }
@@ -1227,7 +1292,7 @@ public class FeatureCoverFlow extends EndlessLoopAdapterContainer implements Vie
      */
     private void recycleCoverFrame(CoverFrame cf) {
         cf.recycle();
-        WeakReference<CoverFrame> ref = new WeakReference<CoverFrame>(cf);
+        WeakReference<CoverFrame> ref = new WeakReference<>(cf);
         mRecycledCoverFrames.addLast(ref);
     }
 

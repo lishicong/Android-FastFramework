@@ -70,9 +70,11 @@
         <attr name="coverWidth" format="dimension" />
         <attr name="coverHeight" format="dimension" />
         <attr name="spacing" format="float" />
+        <attr name="rotationThreshold" format="float" />
         <attr name="scalingThreshold" format="float" />
         <attr name="adjustPositionThreshold" format="float" />
         <attr name="adjustPositionMultiplier" format="float" />
+        <attr name="maxRotationAngle" format="float" />
         <attr name="maxScaleFactor" format="float" />
         <attr name="circlePathRadius" format="float" />
         <attr name="circlePathRadiusInMatrixSpace" format="float" />

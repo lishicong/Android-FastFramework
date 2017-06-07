@@ -20,10 +20,4 @@ public abstract class ToolBox {
         float vy = by - ay;
         return (float) Math.sqrt(vx * vx + vy * vy);
     }
-
-    public static void notNull(Object object, String message) {
-        if (object == null) {
-            throw new IllegalArgumentException(message);
-        }
-    }
 }
