@@ -46,13 +46,12 @@ public class NetworkUtil {
 
                     NetworkInfo info = infos[i];
                     if (info.getState() == NetworkInfo.State.CONNECTED) {
-                        L.i("network is connected");
                         return true;
                     }
                 }
             }
         }
-        L.i("network is not connected");
+        L.e("network is not connected");
         return false;
     }
 

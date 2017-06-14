@@ -46,8 +46,4 @@ public class NetworkModel<T> {
     public void setResult(T result) {
         this.result = result;
     }
-
-    public boolean isOk() {
-        return code == 0;
-    }
 }

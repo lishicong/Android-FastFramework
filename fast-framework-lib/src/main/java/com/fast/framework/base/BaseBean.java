@@ -13,6 +13,6 @@ import java.io.Serializable;
 
 public class BaseBean implements Serializable {
 
-    public int errno;
-    public String errmsg;
+    public int code;
+    public String msg;
 }

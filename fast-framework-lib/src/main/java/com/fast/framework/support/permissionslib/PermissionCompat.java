@@ -10,10 +10,6 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-/**
- * Created by caik on 2017/2/17.
- */
-
 public class PermissionCompat {
 
     private Context mContext;
@@ -25,16 +21,13 @@ public class PermissionCompat {
     public void request() {
 
         if (mPermissions == null || mPermissions.length == 0) {
-            throw new NullPointerException(mPermissions == null
-                    ? "mPermissions is null"
-                    : "mPermissions is empty");
+            throw new NullPointerException(mPermissions == null ? "mPermissions is null" : "mPermissions is empty");
         }
 
         Intent intent = RequestActivity.newIntent(mContext, mPermissions, mExplain, mCallBack);
         mContext.startActivity(intent);
-        LocalBroadcastManager.getInstance(mContext)
-                .registerReceiver(mCallBackBroadcastReceiver,
-                        new IntentFilter(mContext.getPackageName()));
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mCallBackBroadcastReceiver,
+                                                                     new IntentFilter(mContext.getPackageName()));
 
     }
 
@@ -79,7 +72,7 @@ public class PermissionCompat {
             boolean result = intent.getBooleanExtra(Constants.GRANT, false);
             if (result) {
                 mCallBack.onGrant();
-            }else {
+            } else {
                 String permission = intent.getStringExtra(Constants.DENIED);
                 mCallBack.onDenied(permission);
             }

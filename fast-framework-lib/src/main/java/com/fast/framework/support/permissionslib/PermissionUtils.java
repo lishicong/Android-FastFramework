@@ -6,10 +6,6 @@ package com.fast.framework.support.permissionslib;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-/**
- * Created by caik on 2017/2/19.
- */
-
 public class PermissionUtils {
 
     /**

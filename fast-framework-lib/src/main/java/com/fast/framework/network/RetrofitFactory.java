@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.fast.framework.base.BaseBean;
+
 import android.content.Context;
 import android.net.Uri;
 import okhttp3.MediaType;
@@ -44,6 +46,7 @@ public class RetrofitFactory {
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(BASE_URL);
+        builder.addConverterFactory(StringConverterFactory.create());
         builder.addConverterFactory(FastJsonConverterFactory.create());
         builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
         builder.client(getClient(context));
@@ -83,15 +86,20 @@ public class RetrofitFactory {
                     public Observable<T> call(NetworkModel<T> networkModel) {
 
                         // 网络延时3秒，用于测试dialog样式显示
-                        //                        try {
-                        //                            Thread.sleep(3000L);
-                        //                        } catch (InterruptedException e) {
-                        //                            e.printStackTrace();
-                        //                        }
-                        if (networkModel.getCode() == ExceptionHandle.SERVER_ERROR_CODE) {
+                        // try {
+                        //      Thread.sleep(3000L);
+                        // } catch (InterruptedException e) {
+                        //      e.printStackTrace();
+                        // }
+
+                        if (networkModel.getCode() != ExceptionHandle.SUCCESS_CODE) {
                             return Observable.error(
                                     new NetworkException(networkModel.getMsg(), networkModel.getCode()));
                         } else {
+                            if (networkModel.getResult() != null) {
+                                ((BaseBean) networkModel.getResult()).code = networkModel.getCode();
+                                ((BaseBean) networkModel.getResult()).msg = networkModel.getMsg();
+                            }
                             return createData(networkModel.getResult());
                         }
                     }
@@ -109,6 +117,7 @@ public class RetrofitFactory {
                     subscriber.onCompleted();
                 } catch (Exception e) {
                     subscriber.onError(e);
+                    e.printStackTrace();
                 }
             }
         });

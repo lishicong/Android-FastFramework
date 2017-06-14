@@ -10,6 +10,7 @@ import com.fast.framework.support.L;
  */
 public class ExceptionHandle {
 
+    public static final int SUCCESS_CODE = 0; // 请求成功
     public static final int SERVER_ERROR_CODE = -1;
     public static final String UNKOWN_ERROR = "未知错误";
 
@@ -23,8 +24,9 @@ public class ExceptionHandle {
             return new NetworkException("服务器连接超时异常", SERVER_ERROR_CODE);
         } else if (e instanceof org.json.JSONException || e instanceof android.net.ParseException) {
             return new NetworkException("服务器数据解析错误异常", SERVER_ERROR_CODE);
+        } else if (e instanceof NetworkException) {
+            return (NetworkException) e;
         }
-
         return new NetworkException(UNKOWN_ERROR, SERVER_ERROR_CODE);
     }
 

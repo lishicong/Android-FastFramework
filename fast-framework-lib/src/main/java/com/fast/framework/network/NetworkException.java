@@ -28,4 +28,9 @@ public class NetworkException extends Exception {
         return errorCode;
     }
 
+    @Override
+    public String toString() {
+        return "NetworkException code:" + errorCode + ", message:" + getMessage();
+    }
+
 }

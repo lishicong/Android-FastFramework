@@ -20,10 +20,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-/**
- * Created by caik on 2017/2/17.
- */
-
 public class RequestActivity extends AppCompatActivity {
 
     private static final String TAG = "RequestActivity";
