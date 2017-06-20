@@ -88,8 +88,6 @@ public class HomePageFragment extends FastFragment implements PullToRefreshRecyc
 
                     @Override
                     protected void onSuccess(NewsBean bean) {
-                        L.i(bean.size + "");
-                        L.i(bean.list.get(0).orderNo);
 
                         for (NewsBean.Order order : bean.list) {
                             order.setVideoUrl(url);

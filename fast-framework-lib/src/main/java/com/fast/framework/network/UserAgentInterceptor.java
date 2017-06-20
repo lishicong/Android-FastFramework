@@ -40,10 +40,6 @@ public final class UserAgentInterceptor implements Interceptor {
 
         Request request = addCommonParameter(original);
 
-        if (NETWORK_LOG) {
-            L.i("HTTP " + request.method() + " REQUEST URL:" + request.url());
-        }
-
         Response response = chain.proceed(request);
 
         // L.i("http response data:" + response.body().string());
@@ -99,6 +95,11 @@ public final class UserAgentInterceptor implements Interceptor {
 
         Request request = requestBuilder.removeHeader(USER_AGENT_HEADER_NAME).addHeader(USER_AGENT_HEADER_NAME,
                                                                                         userAgentHeaderValue).build();
+
+        if (NETWORK_LOG) {
+            L.i("HTTP GET REQUEST URL:" + request.url());
+        }
+
         return request;
     }
 
@@ -142,7 +143,7 @@ public final class UserAgentInterceptor implements Interceptor {
             // 输出带参数的log
             if (NETWORK_LOG) {
                 String params = getPostParamString(formBody);
-                L.i("HTTP POST REQUEST DEBUG URL:" + original.url() + params);
+                L.i("HTTP POST REQUEST URL:" + original.url() + params);
             }
 
             requestBuilder.method(original.method(), formBody);

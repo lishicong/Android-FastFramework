@@ -7,8 +7,6 @@ import com.fast.framework.support.L;
 import com.fast.framework.util.PrefUtil;
 import com.ff.example.fragment.FCONFIG;
 import com.ff.example.fragment.HomeFragment;
-import com.ff.example.fragment.HomeFragment1;
-import com.ff.example.fragment.HomeFragment3;
 import com.ff.example.fragment.WelcomeFragment;
 
 import android.app.Activity;
@@ -41,6 +39,12 @@ public class MainActivity extends SplashActivity {
     @Override
     protected void into() {
 
+        L.v("fast app v test");
+        L.d("fast app d test");
+        L.i("fast app i test");
+        L.w("fast app w test");
+        L.e("fast app e test");
+
         if (!PrefUtil.getBooleanPref(this, FastConf.FAST_GUIDE_STATUS)) {
             Intent intent = FastManager.getIntent(this, WelcomeFragment.class);
             startActivityForResult(intent, FCONFIG.F_REQ_CODE.WELCOME);
@@ -49,11 +53,7 @@ public class MainActivity extends SplashActivity {
             startActivity(intent);
             finish();
         }
-        L.v("fast app v test");
-        L.d("fast app d test");
-        L.i("fast app i test");
-        L.w("fast app w test");
-        L.e("fast app e test");
+
     }
 
 }

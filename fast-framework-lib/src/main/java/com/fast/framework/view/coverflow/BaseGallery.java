@@ -194,7 +194,8 @@ public abstract class BaseGallery extends AdapterView<Adapter> {
 
     @Override
     public View getSelectedView() {
-        throw new UnsupportedOperationException("Not supported");
+        //throw new UnsupportedOperationException("Not supported");
+        return null;
     }
 
     /**

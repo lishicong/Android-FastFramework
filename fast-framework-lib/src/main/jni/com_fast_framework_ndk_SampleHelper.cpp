@@ -1,7 +1,7 @@
 #include <jni.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <android/log.h>
+#include <stdlib.h>
+#include <string.h>
 #include "com_fast_framework_ndk_SampleHelper.h"
 
 #ifndef LOG_TAG

@@ -13,4 +13,26 @@
         android:text="222"
         android:textColor="#ff000000" />
 
+
+    <Button
+        android:id="@+id/notifi_download_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="开始下载" />
+
+    <Button
+        android:id="@+id/notifi_download_pause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="暂停下载" />
+
+    <Button
+        android:id="@+id/notifi_download_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="取消下载进度" />
+
 </LinearLayout>

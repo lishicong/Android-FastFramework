@@ -24,11 +24,6 @@
             android:name="com.fast.framework.support.GlideCache"
             android:value="GlideModule" />
 
-        <!-- 渠道号 meta-data -->
-        <meta-data
-            android:name="channel"
-            android:value="${CHANNEL_VALUE}" />
-
         <activity
             android:name="com.fast.framework.support.permissionslib.RequestActivity"
             android:screenOrientation="landscape" />
