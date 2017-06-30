@@ -17,6 +17,10 @@ public class NotifiWidget extends BaseNotifi {
 
     public final static String INTENT_BUTTONID_TAG = "FastNotifiIntentButtonId";
     /**
+     * 布局
+     */
+    public final static int BUTTON_LAYOUT_ID = 0;
+    /**
      * 上一首ID
      */
     public final static int BUTTON_PREV_ID = 1;
@@ -49,7 +53,11 @@ public class NotifiWidget extends BaseNotifi {
     public void show() {
         RemoteViews remoteViews = getRemoteView();
         mNotifiBuilder.setContent(remoteViews);
-        showNotify(NOTIFI_ID_WIDGET);
+        showNotifi(NOTIFI_ID_WIDGET);
+    }
+
+    public void clear() {
+        clearNotifi(NOTIFI_ID_WIDGET);
     }
 
     public void palyOrPause() {
@@ -73,21 +81,29 @@ public class NotifiWidget extends BaseNotifi {
 
         Intent buttonIntent = new Intent(ACTION_BUTTON);
 
+        // 布局
+        buttonIntent.putExtra(INTENT_BUTTONID_TAG, BUTTON_LAYOUT_ID);
+        PendingIntent intentLayout = PendingIntent.getBroadcast(mContext, BUTTON_LAYOUT_ID, buttonIntent,
+                                                                PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteViews.setOnClickPendingIntent(R.id.fast_notifi_widget, intentLayout);
+
+        // 上一首
         buttonIntent.putExtra(INTENT_BUTTONID_TAG, BUTTON_PREV_ID);
+        PendingIntent intentPrev = PendingIntent.getBroadcast(mContext, BUTTON_PREV_ID, buttonIntent,
+                                                              PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_prev, intentPrev);
 
-        PendingIntent intent_prev = PendingIntent.getBroadcast(mContext, BUTTON_PREV_ID, buttonIntent,
-                                                               PendingIntent.FLAG_UPDATE_CURRENT);
-        mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_prev, intent_prev);
-
+        // 播放
         buttonIntent.putExtra(INTENT_BUTTONID_TAG, BUTTON_PALY_ID);
-        PendingIntent intent_paly = PendingIntent.getBroadcast(mContext, BUTTON_PALY_ID, buttonIntent,
-                                                               PendingIntent.FLAG_UPDATE_CURRENT);
-        mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_play, intent_paly);
+        PendingIntent intentPaly = PendingIntent.getBroadcast(mContext, BUTTON_PALY_ID, buttonIntent,
+                                                              PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_play, intentPaly);
 
+        // 下一首
         buttonIntent.putExtra(INTENT_BUTTONID_TAG, BUTTON_NEXT_ID);
-        PendingIntent intent_next = PendingIntent.getBroadcast(mContext, BUTTON_NEXT_ID, buttonIntent,
-                                                               PendingIntent.FLAG_UPDATE_CURRENT);
-        mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_next, intent_next);
+        PendingIntent intentNext = PendingIntent.getBroadcast(mContext, BUTTON_NEXT_ID, buttonIntent,
+                                                              PendingIntent.FLAG_UPDATE_CURRENT);
+        mRemoteViews.setOnClickPendingIntent(R.id.btn_custom_next, intentNext);
 
         return mRemoteViews;
     }

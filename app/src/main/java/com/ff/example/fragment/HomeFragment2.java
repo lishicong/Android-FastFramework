@@ -72,21 +72,21 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //        widget = new NotifiWidget(mActivity, "正在播放");
-        //        widget.setSong("爱你一万年");
-        //        widget.setSinger("刘德华");
-        //        widget.show();
+        widget = new NotifiWidget(mActivity, "正在播放");
+        widget.setSong("爱你一万年");
+        widget.setSinger("刘德华");
+        widget.show();
 
-        NotifiProgress.Builder builder = new NotifiProgress.Builder();
-        builder.setTitle("新版本升级包v1.1");
-        builder.setDefautlStatus("准备下载");
-        builder.setStartStatus("下载中");
-        builder.setPauseStatus("已暂停");
-        builder.setStopStatus("已停止");
-        builder.setErrorStatus("下载错误");
-        nofiti = new NotifiProgress(mActivity, "文件下载");
-        nofiti.setBuilder(builder);
-        nofiti.show();
+        //        NotifiProgress.Builder builder = new NotifiProgress.Builder();
+        //        builder.setTitle("新版本升级包v1.1");
+        //        builder.setDefautlStatus("准备下载");
+        //        builder.setStartStatus("下载中");
+        //        builder.setPauseStatus("已暂停");
+        //        builder.setStopStatus("已停止");
+        //        builder.setErrorStatus("下载错误");
+        //        nofiti = new NotifiProgress(mActivity, "文件下载");
+        //        nofiti.setBuilder(builder);
+        //        nofiti.show();
     }
 
     @Override
@@ -134,6 +134,10 @@ public class HomeFragment2 extends BaseFragment implements View.OnClickListener 
             if (action.equals(NotifiWidget.ACTION_BUTTON)) {
                 int buttonId = intent.getIntExtra(NotifiWidget.INTENT_BUTTONID_TAG, 0);
                 switch (buttonId) {
+                    case NotifiWidget.BUTTON_LAYOUT_ID:
+                        L.i("BUTTON_LAYOUT_ID");
+                        widget.clear();
+                        break;
                     case NotifiWidget.BUTTON_PREV_ID:
                         L.i("BUTTON_PREV_ID");
                         break;

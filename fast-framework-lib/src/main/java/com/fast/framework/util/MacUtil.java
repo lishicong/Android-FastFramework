@@ -3,53 +3,39 @@
  */
 package com.fast.framework.util;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import com.fast.framework.support.L;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 
 /**
  * Created by lishicong on 2017/6/7.
  */
-
 public class MacUtil {
 
     public static String getMacAddress() {
-        String result = "";
-        String Mac = "";
-        result = callCmd("busybox ifconfig", "HWaddr");
 
-        if (result == null) {
-            return "网络出错，请检查网络";
-        }
-        if (result.length() > 0 && result.contains("HWaddr")) {
-            Mac = result.substring(result.indexOf("HWaddr") + 6, result.length() - 1);
-            if (Mac.length() > 1) {
-                result = Mac.toLowerCase();
-            }
-        }
-        return result.trim();
-    }
-
-    private static String callCmd(String cmd, String filter) {
-        String result = "";
-        String line = "";
+        String macAddress = null;
+        StringBuffer buf = new StringBuffer();
+        NetworkInterface networkInterface = null;
         try {
-            Process proc = Runtime.getRuntime().exec(cmd);
-            InputStreamReader is = new InputStreamReader(proc.getInputStream());
-            BufferedReader br = new BufferedReader(is);
-
-            // 执行命令cmd，只取结果中含有filter的这一行
-            while ((line = br.readLine()) != null && line.contains(filter) == false) {
-                //result += line;
-                L.d("MacUtil call cmd line:" + line);
+            networkInterface = NetworkInterface.getByName("eth1");
+            if (networkInterface == null) {
+                networkInterface = NetworkInterface.getByName("wlan0");
             }
-
-            result = line;
-            L.d("MacUtil call cmd result:" + line);
-        } catch (Exception e) {
+            if (networkInterface == null) {
+                return "02:00:00:00:00:02";
+            }
+            byte[] addr = networkInterface.getHardwareAddress();
+            for (byte b : addr) {
+                buf.append(String.format("%02X:", b));
+            }
+            if (buf.length() > 0) {
+                buf.deleteCharAt(buf.length() - 1);
+            }
+            macAddress = buf.toString();
+        } catch (SocketException e) {
             e.printStackTrace();
+            return "02:00:00:00:00:02";
         }
-        return result;
+        return macAddress;
     }
 }

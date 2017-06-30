@@ -20,7 +20,7 @@
     <!-- 用于Log文字颜色 -->
     <color name="fast_framework_f_log">#d03bfc34</color>
     <!-- 用于Log背景颜色 -->
-    <color name="fast_framework_f_log_bg">#10000000</color>
+    <color name="fast_framework_f_log_bg">#00000000</color>
 
 
     <!-- 用于重要级分割线颜色 -->

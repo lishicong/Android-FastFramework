@@ -6,6 +6,7 @@ package com.fast.framework;
 import com.fast.framework.base.BaseFragment;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 
 /**
  * 界面管理框架的fragment基类，所有使用动态界面管理的fragment都需要继承此类。
@@ -19,6 +20,10 @@ public abstract class FastFragment extends BaseFragment {
 
     public void onBackPressed() {
         mActivity.finish();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
     }
 
     public void onNewIntent(Intent intent) {

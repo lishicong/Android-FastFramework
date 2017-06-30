@@ -5,8 +5,6 @@ package com.fast.framework.support;
 
 import java.util.Locale;
 
-import com.fast.framework.BuildConfig;
-
 import android.util.Log;
 
 /**
@@ -18,8 +16,9 @@ import android.util.Log;
 public class L {
 
     private static final String TAG = "FastFramework";
-    private static final String TAG_CONTENT_PRINT = "%s:%s.%s:%d";
     private static final String TAG_LOG = " FFLOG |||(~_~).zZ ------>>> ";
+    private static final boolean TAG_SAMPLE = true;
+
     // log trace 开关
     private static final boolean LOG_TRACE_ENABLED = true;
 
@@ -39,107 +38,52 @@ public class L {
     public static void v(String msg) {
 
         if (LOG_TRACE_ENABLED && LEVEL >= VERBOSE) {
-            Log.v(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
+            Log.v(TAG, getCurrentStackTraceElement() + TAG_LOG + msg);
         }
     }
 
     public static void d(String msg) {
 
         if (LOG_TRACE_ENABLED && LEVEL >= DEBUG) {
-            Log.d(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
+            Log.d(TAG, getCurrentStackTraceElement() + TAG_LOG + msg);
         }
     }
 
     public static void i(String msg) {
 
         if (LOG_TRACE_ENABLED && LEVEL >= INFO) {
-            Log.i(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
+            Log.i(TAG, getCurrentStackTraceElement() + TAG_LOG + msg);
         }
     }
 
     public static void w(String msg) {
 
         if (LOG_TRACE_ENABLED && LEVEL >= WARN) {
-            Log.w(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
+            Log.w(TAG, getCurrentStackTraceElement() + TAG_LOG + msg);
         }
     }
 
     public static void e(String msg) {
 
         if (LOG_TRACE_ENABLED && LEVEL >= ERROR) {
-            Log.e(TAG, getContent(getCurrentStackTraceElement()) + TAG_LOG + msg);
+            Log.e(TAG, getCurrentStackTraceElement() + TAG_LOG + msg);
         }
     }
 
     /**
-     * 获取方法的调用栈信息
+     * 获取方法的调用栈信息，并格式化
      *
      * @return
      */
-    private static StackTraceElement getCurrentStackTraceElement() {
-
-        return Thread.currentThread().getStackTrace()[4];
-
-    }
-
-    /**
-     * 格式化调用栈信息
-     *
-     * @param trace
-     *
-     * @return
-     */
-    private static String getContent(StackTraceElement trace) {
-
-        //        return String.format(Locale.ENGLISH, TAG_CONTENT_PRINT, TAG, trace.getClassName(), trace
-        // .getMethodName(),
-        //                             trace.getLineNumber());
-        return String.format(Locale.ENGLISH, "%s:%d", trace.getClassName(), trace.getLineNumber());
-    }
-
-    /**
-     * 输出一个debug级别的log
-     */
-    public static void trace() {
-
-        if (LOG_TRACE_ENABLED) {
-            Log.d(TAG, getContent(getCurrentStackTraceElement()));
+    private static String getCurrentStackTraceElement() {
+        StackTraceElement trace = Thread.currentThread().getStackTrace()[4];
+        String className;
+        if (TAG_SAMPLE) {
+            className = trace.getClass().getSimpleName();
+        } else {
+            className = trace.getClassName();
         }
-    }
-
-    /**
-     * 打印当前调用栈信息
-     */
-    public static void traceStack() {
-
-        String tag = TAG;
-        int priority = Log.ERROR;
-
-        if (LOG_TRACE_ENABLED) {
-
-            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-            Log.println(priority, tag, stackTrace[4].toString());
-            StringBuilder str = new StringBuilder();
-            String prevClass = null;
-
-            for (int i = 5; i < stackTrace.length; i++) {
-                String className = stackTrace[i].getFileName();
-                int idx = className.indexOf(".java");
-                if (idx >= 0) {
-                    className = className.substring(0, idx);
-                }
-                if (prevClass == null || !prevClass.equals(className)) {
-
-                    str.append(className.substring(0, idx));
-
-                }
-                prevClass = className;
-                str.append(".").append(stackTrace[i].getMethodName()).append(":").append(stackTrace[i].getLineNumber())
-                        .append("->");
-            }
-
-            Log.println(priority, tag, str.toString());
-        }
+        return String.format(Locale.ENGLISH, "%s:%d", className, trace.getLineNumber());
     }
 
 }

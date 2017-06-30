@@ -1249,9 +1249,9 @@ public class FastGallery extends BaseGallery implements ViewTreeObserver.OnPreDr
             final int di = lastCenterItemPosition - position;
 
             // 点击卡片切换无滑动效果 lishicong
-            // final int dst = (int) (di * mCoverWidth * mSpacing);
-            // mScrollToPositionOnNextInvalidate = -1;
-            // scrollBy(-dst, 0);
+            //             final int dst = (int) (di * mCoverWidth * mSpacing);
+            //             mScrollToPositionOnNextInvalidate = -1;
+            //             scrollBy(-dst, 0);
 
             // TODO 点击卡片切换有滑动效果，显示超过5张卡片此算法需要优化
             int di2 = di;

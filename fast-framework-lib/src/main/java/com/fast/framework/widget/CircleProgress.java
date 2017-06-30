@@ -32,10 +32,14 @@ public class CircleProgress extends View {
     private int progressColor;
     private int progressColorComplete;
     private int progressColorCenter;
-    private int progressWidth;
+    private float progressWidth;
 
     private int startAngle = 270;
     private float paddingScale = 0.9f;// 控件内偏距占空间本身的比例
+
+    public CircleProgress(Context context) {
+        this(context, null);
+    }
 
     public CircleProgress(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -91,7 +95,7 @@ public class CircleProgress extends View {
     /**
      * 设置圆环进度条的宽度 px
      */
-    public void setProdressWidth(int progressWidth) {
+    public void setProdressWidth(float progressWidth) {
         this.progressWidth = progressWidth;
     }
 
@@ -170,10 +174,14 @@ public class CircleProgress extends View {
     }
 
     /**
-     * @param scale
+     * @param paddingScale
      */
-    public void setPaddingScale(float scale) {
-        this.paddingScale = scale;
+    public void setPaddingScale(float paddingScale) {
+        this.paddingScale = paddingScale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 
 }

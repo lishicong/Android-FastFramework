@@ -20,12 +20,12 @@
         android:centerColor="#00000000"
         android:centerX="0.5"
         android:centerY="0.5"
-        android:endColor="#a3000000"
-        android:startColor="#a3000000"
+        android:endColor="#b3101833"
+        android:startColor="#b3101833"
         android:type="linear" />
 
     <corners
-        android:bottomLeftRadius="5dp"
-        android:topLeftRadius="5dp" />
+        android:bottomLeftRadius="0dp"
+        android:topLeftRadius="0dp" />
 
 </shape>

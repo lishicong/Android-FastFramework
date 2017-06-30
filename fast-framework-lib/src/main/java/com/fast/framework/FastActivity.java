@@ -8,6 +8,7 @@ import com.fast.framework.base.EmptyFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 /**
@@ -39,6 +40,14 @@ public class FastActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mFragment.onKeyDown(keyCode, event)) {
+            // undo
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

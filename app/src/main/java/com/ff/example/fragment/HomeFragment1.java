@@ -59,11 +59,11 @@ public class HomeFragment1 extends FastFragment {
 
         indicator.setIndicatorMode(TabPageIndicator.IndicatorMode.MODE_NOWEIGHT_EXPAND_NOSAME);// 设置模式，一定要先设置模式
         indicator.setDividerColor(Color.parseColor("#00000000"));// 设置分割线的颜色
-        indicator.setDividerPadding(DensityUtil.dp2px(mActivity, 48));
+        indicator.setDividerPadding((int) DensityUtil.dp2px(mActivity, 48));
         indicator.setIndicatorColorResource(R.color.fast_framework_global);// 设置底部导航线的颜色
         indicator.setTextColorSelected(mActivity.getResources().getColor(R.color.fast_framework_global));// 设置tab标题选中的颜色
         indicator.setTextColor(mActivity.getResources().getColor(R.color.fast_framework_f_minor));// 设置tab标题未被选中的颜色
-        indicator.setTextSize(DensityUtil.sp2px(mActivity, 13));// 设置字体大小
+        indicator.setTextSize((int) DensityUtil.sp2px(mActivity, 13));// 设置字体大小
         //如果要设置监听ViewPager中包含的Fragment的改变(滑动切换页面)
         // ，使用OnPageChangeListener为它指定一个监听器，那么不能像之前那样直接设置在ViewPager上了，而要设置在Indicator上，
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

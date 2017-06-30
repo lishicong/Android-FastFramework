@@ -41,17 +41,31 @@ public abstract class BaseNotifi {
         mNotifiBuilder.setTicker(ticker);
         mNotifiBuilder.setPriority(Notification.PRIORITY_DEFAULT);
         mNotifiBuilder.setOngoing(true);
-        mNotifiBuilder.setSmallIcon(R.mipmap.ic_share_friends);
+        // mNotifiBuilder.setSmallIcon(R.mipmap.ic_share_friends); // 通知栏的小图标
     }
 
-    protected void showNotify(int notifiId) {
+    protected void showNotifi(int notifiId) {
         Notification notify = mNotifiBuilder.build();
         notify.flags = Notification.FLAG_ONGOING_EVENT;
         mNotificationManager.notify(notifiId, notify);
     }
 
+    protected void clearNotifi(int notifiId) {
+        mNotificationManager.cancel(notifiId);
+    }
+
     private PendingIntent getDefalutIntent(Context context, int flags) {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, new Intent(), flags);
         return pendingIntent;
+    }
+
+    /**
+     * 收起系统通知栏
+     *
+     * @param context
+     */
+    public static void closeStatusBar(Context context) {
+        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        context.sendBroadcast(it);
     }
 }

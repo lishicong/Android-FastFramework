@@ -3,6 +3,9 @@
  */
 package com.fast.framework.widget;
 
+import com.fast.framework.support.L;
+import com.fast.framework.util.RandomUtil;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -33,7 +36,7 @@ public class VisualizerView extends View implements Visualizer.OnDataCaptureList
     private float strokeWidth = 0;
     private float strokeLength = 0;
 
-    protected final static int MAX_LEVEL = 30;//音量柱·音频块 - 最大个数
+    protected final static int MAX_LEVEL = 20;//音量柱·音频块 - 最大个数
 
     protected final static int CYLINDER_NUM = 26;//音量柱 - 最大个数
 
@@ -42,8 +45,6 @@ public class VisualizerView extends View implements Visualizer.OnDataCaptureList
     protected Paint mPaint = null;//画笔
 
     protected byte[] mData = new byte[CYLINDER_NUM];//音量柱 数组
-
-    boolean mDataEn = true;
 
     //构造函数初始化画笔
     public VisualizerView(Context context) {
@@ -166,19 +167,14 @@ public class VisualizerView extends View implements Visualizer.OnDataCaptureList
      */
     @Override
     public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
+
         byte[] model = new byte[fft.length / 2 + 1];
-        if (mDataEn) {
-            model[0] = (byte) Math.abs(fft[1]);
-            int j = 1;
-            for (int i = 2; i < fft.length; ) {
-                model[j] = (byte) Math.hypot(fft[i], fft[i + 1]);
-                i += 2;
-                j++;
-            }
-        } else {
-            for (int i = 0; i < CYLINDER_NUM; i++) {
-                model[i] = 0;
-            }
+        model[0] = (byte) Math.abs(fft[1]);
+        int j = 1;
+        for (int i = 2; i < fft.length; ) {
+            model[j] = (byte) Math.hypot(fft[i], fft[i + 1]);
+            i += 2;
+            j++;
         }
         for (int i = 0; i < CYLINDER_NUM; i++) {
             final byte a = (byte) (Math.abs(model[CYLINDER_NUM - i]) / levelStep);
@@ -186,12 +182,24 @@ public class VisualizerView extends View implements Visualizer.OnDataCaptureList
             final byte b = mData[i];
             if (a > b) {
                 mData[i] = a;
-            } else {
-                if (b > 0) {
-                    mData[i]--;
-                }
+            } else if (b > 0) {
+                mData[i]--;
             }
         }
+
+        // feige系统获取fft数据有问题，为了美观人工干预数据显示
+        int max = 0;
+        for (int i = 0; i < mData.length; i++) {
+            if (max < mData[i]) {
+                max = mData[i];
+            }
+        }
+        for (int i = 0; i < mData.length; i++) {
+            if (mData[i] < max && mData[i] <= 1) {
+                mData[i] = (byte) RandomUtil.getRandom(0, max);
+            }
+        }
+
         postInvalidate();//刷新界面
     }
 

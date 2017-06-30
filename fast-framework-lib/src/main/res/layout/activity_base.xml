@@ -18,6 +18,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/fast_framework_f_log_bg"
-        android:padding="4dp"
         android:textColor="@color/fast_framework_f_log" />
 </RelativeLayout>

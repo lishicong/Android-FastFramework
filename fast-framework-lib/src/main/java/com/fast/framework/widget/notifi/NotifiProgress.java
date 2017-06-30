@@ -34,7 +34,7 @@ public class NotifiProgress extends BaseNotifi {
     private void updateStatus(String status) {
         RemoteViews remoteViews = getRemoeteViews(status);
         mNotifiBuilder.setContent(remoteViews);
-        showNotify(NOTIFI_ID_PROGRESS);
+        showNotifi(NOTIFI_ID_PROGRESS);
     }
 
     private RemoteViews getRemoeteViews(String status) {
