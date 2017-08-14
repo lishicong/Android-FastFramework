@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <SurfaceView
+        android:id="@+id/qr_code_preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
     <RelativeLayout
         android:id="@+id/qr_code_header_bar"
         android:layout_width="match_parent"
@@ -57,14 +64,6 @@
             android:layout_alignParentBottom="true"
             android:background="#50ffffff" />
     </RelativeLayout>
-
-    <SurfaceView
-        android:id="@+id/qr_code_preview_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/qr_code_header_bar"
-        android:layout_gravity="center"
-        android:visibility="visible" />
 
     <com.fast.zxing.qrcode.view.QrCodeFinderView
         android:id="@+id/qr_code_view_finder"

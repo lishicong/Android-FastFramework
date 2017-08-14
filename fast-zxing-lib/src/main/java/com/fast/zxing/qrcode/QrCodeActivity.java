@@ -334,13 +334,13 @@ public abstract class QrCodeActivity extends Activity implements Callback, OnCli
         } else {
             scanResult(resultString);
             // 用于alert 提示
-            //            mDecodeManager.showResultDialog(this, resultString, new DialogInterface.OnClickListener() {
-            //                @Override
-            //                public void onClick(DialogInterface dialog, int which) {
-            //                    dialog.dismiss();
-            //                    restartPreview();
-            //                }
-            //            });
+            mDecodeManager.showResultDialog(this, resultString, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    restartPreview();
+                }
+            });
         }
     }
 

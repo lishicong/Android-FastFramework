@@ -9,6 +9,7 @@
 -include proguard-okio.pro
 -include proguard-retrofit2.pro
 -include proguard-rxjava.pro
+-include proguard-baidumtj.pro
 ############### baidumap ###############
 -include proguard-baidumap.pro
 

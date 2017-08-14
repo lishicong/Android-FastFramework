@@ -1,1 +1,5 @@
 include ':app', ':fast-framework-lib', ':fast-zxing-lib', ':fast-baidumap-lib'
+
+//include ':Android-FastFramework'
+//project(':Android-FastFramework').projectDir = new File('/Users/lishicong/Documents/mywork/github/Android-FastFramework/')
+//include ':Android-FastFramework:fast-framework-lib'

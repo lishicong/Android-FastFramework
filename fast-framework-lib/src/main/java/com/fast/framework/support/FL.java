@@ -38,7 +38,7 @@ public class FL {
         return instance;
     }
 
-    public void setmTextView(TextView textView) {
+    public void setTextView(TextView textView) {
         this.mTextView = textView;
     }
 

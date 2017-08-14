@@ -53,8 +53,8 @@ public abstract class BaseActivity extends SkinnableActivity {
         mBaseLayout = (RelativeLayout) findViewById(R.id.a_base_rl);
         mBaseLog = (TextView) findViewById(R.id.a_base_log);
 
-        FL.getInstance().setmTextView(mBaseLog);
-        //FL.getInstance().log("I am a log message");
+        FL.getInstance().setTextView(mBaseLog);
+        // FL.getInstance().log("I am a log message");
     }
 
     @Override

@@ -4,6 +4,7 @@
 package com.fast.framework.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -117,5 +118,29 @@ public class FileUtil {
                 fos.close();
             }
         }
+    }
+
+    /**
+     * 读取文件
+     *
+     * @param fileName
+     *
+     * @return
+     *
+     * @throws IOException
+     */
+    public static String readFile(String fileName) throws IOException {
+
+        if (hasSDCard() && isExist(new File(fileName))) {
+
+            FileInputStream fin = new FileInputStream(fileName);
+            int length = fin.available();
+            byte[] buffer = new byte[length];
+            fin.read(buffer);
+            String res = new String(buffer, "UTF-8");
+            fin.close();
+            return res;
+        }
+        return null;
     }
 }

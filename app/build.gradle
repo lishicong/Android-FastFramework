@@ -80,6 +80,13 @@ dependencies {
     compile project(':fast-framework-lib')
     compile project(':fast-zxing-lib')
     compile project(':fast-baidumap-lib')
+    // compile project(':Android-FastFramework:fast-framework-lib')
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 def buildTime() {
