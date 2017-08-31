@@ -8,6 +8,9 @@ import com.fast.framework.support.L;
 import android.Manifest;
 import android.content.Context;
 
+/**
+ * AndroidPermissionX
+ */
 public class Constants {
 
     public static final String GRANT = "grant";

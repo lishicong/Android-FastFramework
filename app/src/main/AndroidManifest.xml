@@ -28,7 +28,7 @@
         <!-- 百度地图sdk key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="TDOgvOei7MjP5Zw3lh8MFc9nbnsjgIBL" />
+            android:value="zGD6VeLjoL3py7VGcLiLTOjeS4D4W6Rh" />
 
         <activity
             android:name=".MainActivity"

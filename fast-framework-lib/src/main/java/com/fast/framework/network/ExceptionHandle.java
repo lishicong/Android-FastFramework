@@ -12,7 +12,7 @@ public class ExceptionHandle {
 
     public static final int SUCCESS_CODE = 0; // 请求成功
     public static final int SERVER_ERROR_CODE = -1;
-    public static final String UNKOWN_ERROR = "未知错误";
+    public static final String UNKOWN_ERROR = "网络错误";
 
     public static NetworkException handleException(Throwable e) {
 
@@ -20,6 +20,8 @@ public class ExceptionHandle {
 
         if (e instanceof java.net.UnknownHostException) {
             return new NetworkException("未知主机异常", SERVER_ERROR_CODE);
+        } else if (e instanceof java.net.ConnectException) {
+            return new NetworkException("服务器连接被拒绝异常", SERVER_ERROR_CODE);
         } else if (e instanceof java.net.SocketTimeoutException) {
             return new NetworkException("服务器连接超时异常", SERVER_ERROR_CODE);
         } else if (e instanceof org.json.JSONException || e instanceof android.net.ParseException) {

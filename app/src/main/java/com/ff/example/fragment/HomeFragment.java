@@ -59,7 +59,7 @@ public class HomeFragment extends FastFragment implements View.OnClickListener {
                         mFTE.switchContent(mFragment3);
                         break;
                     case R.id.f_home_bottom_radio_4:
-//                        mFTE.switchContent(mFragment4);
+                        mFTE.switchContent(mFragment4);
                         HomeBottomDialog dialog = new HomeBottomDialog();
                         dialog.show(getChildFragmentManager(), HomeBottomDialog.class.getSimpleName());
                         break;

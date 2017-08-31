@@ -11,7 +11,7 @@ android {
     }
     defaultConfig {
         applicationId "com.ff.example"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -31,12 +31,15 @@ android {
                 throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
             }
         }
+        debug {
+            storeFile file('/Users/lishicong/.android/debug.keystore')
+        }
     }
     buildTypes {
         debug {
             debuggable true
             jniDebuggable true
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
         release {
             debuggable false // 默认false,是否开启断点调试
@@ -86,6 +89,8 @@ dependencies {
 repositories {
     flatDir {
         dirs 'libs'
+        // aar
+        // dirs project(':fast-framework-lib').file('libs')
     }
 }
 
