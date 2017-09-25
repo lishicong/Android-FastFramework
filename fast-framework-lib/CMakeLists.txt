@@ -9,6 +9,10 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds it for you.
 # Gradle automatically packages shared libraries with your APK.
 
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/main/jni/include)
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/main/jni/src)
+# include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/main/jni)
+
 file(GLOB_RECURSE native_srcs *.cpp)
 add_library( # Sets the name of the library.AndroidStudio开始支持Cmake了，ndk感觉挺费劲的，这个是不是好玩点，，这里是要生成的库的文件名 libtest.so
              FastFrameworkJniLib
