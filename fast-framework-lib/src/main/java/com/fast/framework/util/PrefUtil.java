@@ -63,6 +63,8 @@ public class PrefUtil {
             edit.putBoolean(key, Boolean.valueOf(value));
         } else if (obj instanceof Float) {
             edit.putFloat(key, Float.valueOf(value));
+        } else if (obj instanceof Double) {
+            edit.putLong(key, Double.doubleToRawLongBits(Double.valueOf(value)));
         } else if (obj instanceof Integer) {
             edit.putInt(key, Integer.valueOf(value));
         } else if (obj instanceof Long) {
@@ -100,6 +102,20 @@ public class PrefUtil {
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         return pref.getFloat(key, 0.0f);
+    }
+
+    /**
+     * 获取double类型的value
+     *
+     * @param context
+     * @param key
+     *
+     * @return
+     */
+    public static double getDoublePref(Context context, String key) {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return Double.longBitsToDouble(pref.getLong(key, 0));
     }
 
     /**

@@ -49,6 +49,7 @@
 # ------------------------------- 默认保留区 -------------------------------
 
 # 保留四大组件
+-keep public class * extends android.app.Fragment
 -keep public class * extends android.app.Activity
 # 保留就保证layout中定义的onClick方法不影响
 # We want to keep methods in Activity that could be used in the XML attribute onClick
